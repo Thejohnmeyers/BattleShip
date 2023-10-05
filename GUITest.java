@@ -35,8 +35,8 @@ class GUITest extends JFrame{
         ImageIcon image5 = new ImageIcon("nobackgroundship5.png");
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(10,10));
-        imagePanel.setLayout(new GridLayout(1,5));
-       // imagePanel2.setLayout(new GridLayout(1,3));
+        imagePanel.setLayout(new GridLayout(1,3));
+        imagePanel2.setLayout(new GridLayout(1,2));
 	    JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
        // buttonPanel.setLayout(new GridLayout(10,10));
@@ -49,19 +49,21 @@ class GUITest extends JFrame{
         imagePanel.add(new JLabel(image1));
         imagePanel.add(new JLabel(image2));
         imagePanel.add(new JLabel(image3));
-        imagePanel.add(new JLabel(image4));
-        imagePanel.add(new JLabel(image5));
+        imagePanel2.add(new JLabel(image4));
+        imagePanel2.add(new JLabel(image5));
         buttonPanel.setPreferredSize(new Dimension(200, 300));
-        buttonPanel.setMaximumSize(new Dimension(300, 300));
-        imagePanel.setPreferredSize(new Dimension(1000, 300));
-      //  imagePanel2.setPreferredSize(new Dimension(750, 300));
+        buttonPanel.setMaximumSize(new Dimension(500, 500));
+        imagePanel.setPreferredSize(new Dimension(750, 300));
+        imagePanel2.setPreferredSize(new Dimension(500, 300));
         bottomPanel.setPreferredSize(new Dimension(200, 300));
-        bottomPanel.setMaximumSize(new Dimension(200, 300));
+        bottomPanel.setMaximumSize(new Dimension(500, 500));
 	   // frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
       //  frame.getContentPane().add(imagePanel);
       //  frame.getContentPane().add(imagePanel2);
        // frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
        containerPanel.add(buttonPanel, BorderLayout.NORTH);
+       containerPanel.add(imagePanel);
+       containerPanel.add(imagePanel2);
         containerPanel.add(bottomPanel, BorderLayout.SOUTH);
         
 	    frame.getContentPane().add(containerPanel);
