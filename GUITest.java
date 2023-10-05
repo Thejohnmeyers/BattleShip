@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,12 +18,15 @@ class GUITest extends JFrame{
             for(int col = 0; col < 10; col++){
                 oppBoardView[row][col] = new JButton("");
                 playerBoardView[row][col] = new JButton("");
+                oppBoardView[row][col].setPreferredSize(new Dimension(10,10));
+                playerBoardView[row][col].setPreferredSize(new Dimension(10,10));
             }
         }
         JFrame frame = new JFrame();
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    JPanel buttonPanel = new JPanel();
         JPanel imagePanel = new JPanel();
+        JPanel imagePanel2 = new JPanel();
         buttonPanel.setLayout(new GridLayout(10,10));
         ImageIcon image1 = new ImageIcon("nobackgroundship1.png");
         ImageIcon image2 = new ImageIcon("nobackgroundship2.png");
@@ -32,7 +36,9 @@ class GUITest extends JFrame{
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new GridLayout(10,10));
         imagePanel.setLayout(new GridLayout(1,5));
-	    //JPanel containerPanel = new JPanel();
+       // imagePanel2.setLayout(new GridLayout(1,3));
+	    JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
        // buttonPanel.setLayout(new GridLayout(10,10));
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
@@ -46,12 +52,19 @@ class GUITest extends JFrame{
         imagePanel.add(new JLabel(image4));
         imagePanel.add(new JLabel(image5));
         buttonPanel.setPreferredSize(new Dimension(200, 300));
-        imagePanel.setPreferredSize(new Dimension(750, 300));
+        buttonPanel.setMaximumSize(new Dimension(300, 300));
+        imagePanel.setPreferredSize(new Dimension(1000, 300));
+      //  imagePanel2.setPreferredSize(new Dimension(750, 300));
         bottomPanel.setPreferredSize(new Dimension(200, 300));
-	    frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
-        frame.getContentPane().add(imagePanel);
-        frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
-	    //frame.getContentPane().add(containerPanel);
+        bottomPanel.setMaximumSize(new Dimension(200, 300));
+	   // frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
+      //  frame.getContentPane().add(imagePanel);
+      //  frame.getContentPane().add(imagePanel2);
+       // frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
+       containerPanel.add(buttonPanel, BorderLayout.NORTH);
+        containerPanel.add(bottomPanel, BorderLayout.SOUTH);
+        
+	    frame.getContentPane().add(containerPanel);
 	    frame.pack();
 	    frame.setVisible(true);
 
