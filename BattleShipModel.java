@@ -1,14 +1,23 @@
+import java.awt.Color;
+
+import javax.swing.JButton;
 
 public class BattleShipModel {
-	private Board playerBoard;
+	
+	private int[][] playerBoard = new int[10][10];
 	private Board oppBoard;
 	Ship[] ship = new Ship[5];
 	private int shipcoordsX;
 	private int shipcoordsY;
 	
-	public BattleShipModel(){
-		playerBoard = new Board();
-		
+	public BattleShipModel(JButton[][] buttonArr){
+		for(int row = 0; row < 3; row++) {
+			for(int col = 0; col < 3; col++) {
+				playerBoard[row][col] = Integer.parseInt(buttonArr[row][col].getName());
+				System.out.println(playerBoard[row][col]);
+			}
+		}
+		displayBoard(playerBoard);
 		oppBoard = new Board();
 		ship[0] = new Ship(5);
 		ship[1] = new Ship(4);
@@ -23,7 +32,7 @@ public class BattleShipModel {
 		System.out.println();
 		System.out.println();
 		}
-		playerBoard.displayBoard();
+		displayBoard(playerBoard);
 		System.out.println();
 		System.out.println();
 		System.out.println();
@@ -41,7 +50,7 @@ public class BattleShipModel {
 			if((ship.size + randomY) > 10) {
 				
 				for(int i = 0; i < ship.size; i++) {
-					playerBoard.gameBoard[randomX][randomY] = 1;
+					playerBoard[randomX][randomY] = 1;
 					randomY-=1;
 				}
 				
@@ -49,7 +58,7 @@ public class BattleShipModel {
 			else {
 				
 				for(int i = 0; i < ship.size; i++) {
-					playerBoard.gameBoard[randomX][randomY] = 1;
+					playerBoard[randomX][randomY] = 1;
 					randomY+=1;
 				}
 				
@@ -60,7 +69,7 @@ public class BattleShipModel {
 			
 			if((ship.size + randomX) > 10) {
 				for(int i = 0; i < ship.size; i++) {
-					playerBoard.gameBoard[randomX][randomY] = 1;
+					playerBoard[randomX][randomY] = 1;
 					randomX-=1;
 					
 				}
@@ -68,12 +77,16 @@ public class BattleShipModel {
 			}
 			else {
 				for(int i = 0; i < ship.size; i++) {
-					playerBoard.gameBoard[randomX][randomY] = 1;
+					playerBoard[randomX][randomY] = 1;
 					randomX+=1;
 				}
 				
 			}
 		}
+		System.out.println();
+		displayBoard(playerBoard);
+		System.out.println();
+		System.out.println();
 		
 	}
 	
@@ -89,26 +102,28 @@ public class BattleShipModel {
 				System.out.println(shipcoordsX +" bruh, " + shipcoordsY);
 				if((size + shipcoordsY) > 10){
 					holder = 0;
-				for(int i = 0; i < size; i++){
-					holder+=playerBoard.gameBoard[shipcoordsX][shipcoordsY];
-					shipcoordsY-=1;
+					for(int i = 0; i < size; i++){
+						holder+=playerBoard[shipcoordsX][shipcoordsY];
+						shipcoordsY-=1;
+						System.out.println("Holder: " + holder);
+					}
 				}
-			}
-			else{
-				System.out.println(shipcoordsX +" bruh, " + shipcoordsY);
-				holder = 0;
-				for(int i = 0; i < size; i++){
-					holder+=playerBoard.gameBoard[shipcoordsX][shipcoordsY];
-					shipcoordsY+=1;
+				else{
+					System.out.println(shipcoordsX +" bruh, " + shipcoordsY);
+					holder = 0;
+					for(int i = 0; i < size; i++){
+						holder+=playerBoard[shipcoordsX][shipcoordsY];
+						shipcoordsY+=1;
+						System.out.println("Holder: " + holder);
+					}
 				}
-			}
-			if(holder == 0){
-				returnable = true;
-				break;
-			}
-			else{
-				System.out.println("collision!!");
-			}
+				if(holder == 0){
+					returnable = true;
+					break;
+				}
+				else{
+					System.out.println("collision!!");
+				}
 
 			}
 			
@@ -123,15 +138,18 @@ public class BattleShipModel {
 				if((size + shipcoordsX) > 10){
 					holder = 0;
 				for(int i = 0; i < size; i++){
-					holder+=playerBoard.gameBoard[shipcoordsX][shipcoordsY];
+					holder+=playerBoard[shipcoordsX][shipcoordsY];
 					shipcoordsX-=1;
+					System.out.println("Holder: " + holder);
 				}
 			}
 			else{
+				holder =0;
 				for(int i = 0; i < size; i++){
-					holder =0;
-					holder+=playerBoard.gameBoard[shipcoordsX][shipcoordsY];
+					
+					holder+=playerBoard[shipcoordsX][shipcoordsY];
 					shipcoordsX+=1;
+					System.out.println("Holder: " + holder);
 				}
 			}
 			if(holder == 0){
@@ -145,6 +163,23 @@ public class BattleShipModel {
 
 			}
 		}
+		}
+		public void displayBoard(int gameBoard[][]) {
+			for(int row = 0; row < 10; row++) {
+				for(int col = 0; col < 10; col++) {
+					System.out.print(gameBoard[row][col]);
+				}
+				System.out.println();
+			}
+		}
+		public void setColor( JButton[][] Buttonarr){
+			for(int row = 0; row < 10; row++){
+				for(int col = 0; col < 10; col++){
+					if(playerBoard[row][col] == 1){
+						Buttonarr[row][col].setBackground(Color.GREEN);
+					}
+				}
+			}
 		}
 	
 }

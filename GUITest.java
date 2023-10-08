@@ -13,18 +13,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 class GUITest extends JFrame{
-    
+    JButton[][] oppBoardView = new JButton[10][10];
+    JButton[][] playerBoardView = new JButton [10][10];
     public GUITest(){
-        JButton[][] oppBoardView = new JButton[10][10];
-        JButton[][] playerBoardView = new JButton [10][10];
+       
         JButton randPlace = new JButton("Random Placement");
-        randPlace.setBackground(Color.lightGray);
+        randPlace.setBackground(Color.GREEN);
+        RandomPlaceButton randHandler = new RandomPlaceButton();
+        randPlace.addActionListener(randHandler);
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 oppBoardView[row][col] = new JButton("");
                 playerBoardView[row][col] = new JButton("");
                 oppBoardView[row][col].setPreferredSize(new Dimension(10,10));
                 playerBoardView[row][col].setPreferredSize(new Dimension(10,10));
+                playerBoardView[row][col].setName("0");
+                playerBoardView[row][col].setBackground(Color.blue);
+                oppBoardView[row][col].setBackground(Color.BLUE);
             }
         }
         JFrame frame = new JFrame();
@@ -50,9 +55,10 @@ class GUITest extends JFrame{
             for(int col = 0; col < 10; col++){
                 buttonPanel.add(oppBoardView[row][col]);
                 bottomPanel.add(playerBoardView[row][col]);
-                playerBoardView[row][col].addActionListener(handler);
+                oppBoardView[row][col].addActionListener(handler);
             }
         }
+
         imagePanel.add(new JLabel(image1));
         imagePanel.add(new JLabel(image2));
         imagePanel.add(new JLabel(image3));
@@ -64,10 +70,6 @@ class GUITest extends JFrame{
         imagePanel2.setPreferredSize(new Dimension(500, 300));
         bottomPanel.setPreferredSize(new Dimension(200, 300));
         bottomPanel.setMaximumSize(new Dimension(500, 500));
-	   // frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
-      //  frame.getContentPane().add(imagePanel);
-      //  frame.getContentPane().add(imagePanel2);
-       // frame.getContentPane().add(bottomPanel, BorderLayout.SOUTH);
        containerPanel.add(buttonPanel, BorderLayout.NORTH);
        containerPanel.add(imagePanel);
        containerPanel.add(imagePanel2);
@@ -88,7 +90,9 @@ class GUITest extends JFrame{
     }
     private class RandomPlaceButton implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            
+            BattleShipModel b = new BattleShipModel(playerBoardView);
+            b.callRandom();
+            b.setColor(playerBoardView);
         }
     }
 
