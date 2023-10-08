@@ -1,6 +1,9 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -14,6 +17,8 @@ class GUITest extends JFrame{
     public GUITest(){
         JButton[][] oppBoardView = new JButton[10][10];
         JButton[][] playerBoardView = new JButton [10][10];
+        JButton randPlace = new JButton("Random Placement");
+        randPlace.setBackground(Color.lightGray);
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 oppBoardView[row][col] = new JButton("");
@@ -40,10 +45,12 @@ class GUITest extends JFrame{
 	    JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.Y_AXIS));
        // buttonPanel.setLayout(new GridLayout(10,10));
+       ActionOnClick handler = new ActionOnClick();
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 buttonPanel.add(oppBoardView[row][col]);
                 bottomPanel.add(playerBoardView[row][col]);
+                playerBoardView[row][col].addActionListener(handler);
             }
         }
         imagePanel.add(new JLabel(image1));
@@ -64,12 +71,25 @@ class GUITest extends JFrame{
        containerPanel.add(buttonPanel, BorderLayout.NORTH);
        containerPanel.add(imagePanel);
        containerPanel.add(imagePanel2);
+        containerPanel.add(randPlace, BorderLayout.WEST);
         containerPanel.add(bottomPanel, BorderLayout.SOUTH);
         
 	    frame.getContentPane().add(containerPanel);
 	    frame.pack();
 	    frame.setVisible(true);
 
+    }
+    private class ActionOnClick implements ActionListener{
+        public void actionPerformed( ActionEvent event )
+	      {
+	    	JButton but = (JButton)event.getSource();
+            but.setBackground(Color.RED);
+          }
+    }
+    private class RandomPlaceButton implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            
+        }
     }
 
 }
