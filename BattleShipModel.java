@@ -27,7 +27,7 @@ public class BattleShipModel {
 	}
 	public void callRandom() {
 		for(int i = 0; i < ship.length; i++) {
-			placeRandomPosition(ship[i]);
+			placeRandom(ship[i]);
 			System.out.println();
 		System.out.println();
 		System.out.println();
@@ -37,19 +37,77 @@ public class BattleShipModel {
 		System.out.println();
 		System.out.println();
 	}
+
+
+	public void placeRandom(Ship ship)
+    {
+        
+            boolean collides = true;
+            int horiz = (int)(Math.random() * 2);
+            int shipRow, shipCol;
+            boolean horizontal = (horiz == 1) ? true : false;
+            do{
+                if(horizontal){
+                    shipCol = (int)(Math.random() * (9 - ship.getSize()+1 + 1));
+                    shipRow = (int)(Math.random() * (9 + 1));
+                }
+                else{
+                    shipCol = (int)(Math.random() * (9 + 1));
+                    shipRow = (int)(Math.random() * (9-ship.getSize()+1 + 1));
+                }
+              collides = placeShip(shipRow, shipCol, horizontal, ship);
+            }
+            while(!collides);
+        
+    }
+    public boolean placeShip( int row, int col, boolean horizontal, Ship ship)
+    {
+        int length = ship.getSize();
+        int iter = horizontal ? col : row;
+
+        System.out.println(horizontal);
+
+        for (int i = iter; i < iter+length; i++) {
+            if(horizontal) {
+                if(playerBoard[row][i] == 1) return false;}
+            else {
+                if(playerBoard[i][col] == 1) return false; }
+        }
+
+        for(int i = iter; i < iter + length; i++)
+        {
+            if(horizontal)
+            {
+                playerBoard[row][i] = 1;
+            }
+            else
+            {
+                playerBoard[i][col] = 1;
+            }
+        }
+        return true;
+    }
+
+
+
+
+
+
+
+
 	public void placeRandomPosition(Ship ship) {
 		
 		
 		int horoz = (int)(Math.random() * 2);
-		collisionChecker(ship.size, horoz);
+		collisionChecker(ship.getSize(), horoz);
 		int randomX = shipcoordsX;
 		int randomY = shipcoordsY;
 		System.out.println(randomX +" , " + randomY);
 		if(horoz == 1) {
 			
-			if((ship.size + randomY) > 10) {
+			if((ship.getSize() + randomY) > 10) {
 				
-				for(int i = 0; i < ship.size; i++) {
+				for(int i = 0; i < ship.getSize(); i++) {
 					playerBoard[randomX][randomY] = 1;
 					randomY-=1;
 				}
@@ -57,7 +115,7 @@ public class BattleShipModel {
 			}
 			else {
 				
-				for(int i = 0; i < ship.size; i++) {
+				for(int i = 0; i < ship.getSize(); i++) {
 					playerBoard[randomX][randomY] = 1;
 					randomY+=1;
 				}
@@ -67,8 +125,8 @@ public class BattleShipModel {
 		}
 		else {
 			
-			if((ship.size + randomX) > 10) {
-				for(int i = 0; i < ship.size; i++) {
+			if((ship.getSize() + randomX) > 10) {
+				for(int i = 0; i < ship.getSize(); i++) {
 					playerBoard[randomX][randomY] = 1;
 					randomX-=1;
 					
@@ -76,7 +134,7 @@ public class BattleShipModel {
 				
 			}
 			else {
-				for(int i = 0; i < ship.size; i++) {
+				for(int i = 0; i < ship.getSize(); i++) {
 					playerBoard[randomX][randomY] = 1;
 					randomX+=1;
 				}
@@ -90,6 +148,15 @@ public class BattleShipModel {
 		
 	}
 	
+
+
+
+
+
+
+
+
+
 		public void collisionChecker(int size, int horoz){
 			boolean returnable = false;
 			
@@ -119,6 +186,7 @@ public class BattleShipModel {
 				}
 				if(holder == 0){
 					returnable = true;
+					System.out.println("Final coords: " + shipcoordsX + " , " + shipcoordsY);
 					break;
 				}
 				else{
@@ -154,6 +222,7 @@ public class BattleShipModel {
 			}
 			if(holder == 0){
 				returnable = true;
+				System.out.println("Final coords: " + shipcoordsX + " , " + shipcoordsY);
 				break;
 			}
 			else{
