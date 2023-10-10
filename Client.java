@@ -81,7 +81,7 @@
 	   } // end method runClient
 
 	   // connect to server
-	   private void connectToServer() throws IOException
+	   public void connectToServer() throws IOException
 	   {      
 	      displayMessage( "Attempting connection\n" );
 
@@ -94,7 +94,7 @@
 	   } // end method connectToServer
 
 	   // get streams to send and receive data
-	   private void getStreams() throws IOException
+	   public void getStreams() throws IOException
 	   {
 	      // set up output stream for objects
 	      output = new ObjectOutputStream( client.getOutputStream() );      
@@ -146,7 +146,7 @@
 	   } // end method closeConnection
 
 	   // send message to server
-	   private void sendData( String message )
+	   public void sendData( String message )
 	   {
 	      try // send object to server
 	      {

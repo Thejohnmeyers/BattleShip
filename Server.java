@@ -151,7 +151,7 @@ public class Server extends JFrame
    } // end method closeConnection
 
    // send message to client
-   private void sendData( String message )
+   public void sendData( String message )
    {
       try // send object to client
       {

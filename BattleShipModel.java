@@ -9,6 +9,8 @@ public class BattleShipModel {
 	Ship[] ship = new Ship[5];
 	private int shipcoordsX;
 	private int shipcoordsY;
+	Server s;
+	Client application = new Client( "10.249.43.73" );
 	
 	public BattleShipModel(JButton[][] buttonArr){
 		for(int row = 0; row < 3; row++) {
@@ -24,6 +26,7 @@ public class BattleShipModel {
 		ship[2] = new Ship(3);
 		ship[3] = new Ship(3);
 		ship[4] = new Ship(2);
+		s = new Server();
 	}
 	public void callRandom() {
 		for(int i = 0; i < ship.length; i++) {
@@ -93,7 +96,7 @@ public class BattleShipModel {
 
 
 
-
+/*
 
 	public void placeRandomPosition(Ship ship) {
 		
@@ -233,6 +236,7 @@ public class BattleShipModel {
 			}
 		}
 		}
+		*/
 		public void displayBoard(int gameBoard[][]) {
 			for(int row = 0; row < 10; row++) {
 				for(int col = 0; col < 10; col++) {
@@ -250,6 +254,8 @@ public class BattleShipModel {
 				}
 			}
 		}
-	
+		public void sendHit(String message){
+			application.sendData(message);
+		}
 }
 

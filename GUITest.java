@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -15,8 +16,18 @@ import javax.swing.JPanel;
 class GUITest extends JFrame{
     JButton[][] oppBoardView = new JButton[10][10];
     JButton[][] playerBoardView = new JButton [10][10];
+   // Server s = new Server();
+    Client c = new Client( "10.249.43.73" );
     public GUITest(){
-       
+         try {
+                c.connectToServer();
+                c.getStreams();
+            } catch (IOException e) {
+                
+                e.printStackTrace();
+            }
+        
+        
         JButton randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
         RandomPlaceButton randHandler = new RandomPlaceButton();
@@ -28,6 +39,7 @@ class GUITest extends JFrame{
                 oppBoardView[row][col].setPreferredSize(new Dimension(10,10));
                 playerBoardView[row][col].setPreferredSize(new Dimension(10,10));
                 playerBoardView[row][col].setName("0");
+                oppBoardView[row][col].setName("0");
                 playerBoardView[row][col].setBackground(Color.blue);
                 oppBoardView[row][col].setBackground(Color.BLUE);
             }
@@ -87,6 +99,10 @@ class GUITest extends JFrame{
 	      {
 	    	JButton but = (JButton)event.getSource();
             but.setBackground(Color.RED);
+           
+            
+            c.sendData(but.getName());
+            
           }
     }
     private class RandomPlaceButton implements ActionListener{
