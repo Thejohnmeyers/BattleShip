@@ -64,11 +64,12 @@ class GUITest extends JFrame{
         imagePanel.add(new JLabel(image3));
         imagePanel2.add(new JLabel(image4));
         imagePanel2.add(new JLabel(image5));
-        buttonPanel.setPreferredSize(new Dimension(200, 300));
+        buttonPanel.setPreferredSize(new Dimension(300, 300));
+        
         buttonPanel.setMaximumSize(new Dimension(500, 500));
         imagePanel.setPreferredSize(new Dimension(750, 300));
         imagePanel2.setPreferredSize(new Dimension(500, 300));
-        bottomPanel.setPreferredSize(new Dimension(200, 300));
+        bottomPanel.setPreferredSize(new Dimension(300, 300));
         bottomPanel.setMaximumSize(new Dimension(500, 500));
        containerPanel.add(buttonPanel, BorderLayout.NORTH);
        containerPanel.add(imagePanel);
