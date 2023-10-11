@@ -5,20 +5,26 @@ import javax.swing.JButton;
 public class BattleShipModel {
 	
 	private int[][] playerBoard = new int[10][10];
-	private Board oppBoard;
+	private int[][] oppBoard = new int[10][10];
 	Ship[] ship = new Ship[5];
 	private int shipcoordsX;
 	private int shipcoordsY;
-	
-	public BattleShipModel(JButton[][] buttonArr){
+	private int totalhits = 0;
+	public BattleShipModel(JButton[][] buttonArr, JButton[][] buttonArr2){
 		for(int row = 0; row < 3; row++) {
 			for(int col = 0; col < 3; col++) {
 				playerBoard[row][col] = Integer.parseInt(buttonArr[row][col].getName());
 				System.out.println(playerBoard[row][col]);
 			}
 		}
+		for(int row = 0; row < 3; row++) {
+			for(int col = 0; col < 3; col++) {
+				oppBoard[row][col] = Integer.parseInt(buttonArr2[row][col].getName());
+				System.out.println(playerBoard[row][col]);
+			}
+		}
 		displayBoard(playerBoard);
-		oppBoard = new Board();
+		
 		ship[0] = new Ship(5);
 		ship[1] = new Ship(4);
 		ship[2] = new Ship(3);
@@ -89,150 +95,57 @@ public class BattleShipModel {
     }
 
 
+	public void shoot(int x, int y, Model opp)
+    {
+        if(opp.checkHit(x, y))
+        {
+            oppBoard[x][y] = 1;
+            totalhits++;
+            System.out.println("HIT");
+        }
+        else
+        {
+            oppBoard[x][x] = 0;
+            System.out.println("MISS");
+        }
+    }
 
+    public boolean checkHit(int x, int y)
+    {
+        if(playerBoard[x][y] == 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    public boolean checkWin()
+    {
+        if(totalhits == 17)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    public boolean checkLose()
+    {
+        if(totalShips == 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
-
-
-	public void placeRandomPosition(Ship ship) {
-		
-		
-		int horoz = (int)(Math.random() * 2);
-		collisionChecker(ship.getSize(), horoz);
-		int randomX = shipcoordsX;
-		int randomY = shipcoordsY;
-		System.out.println(randomX +" , " + randomY);
-		if(horoz == 1) {
-			
-			if((ship.getSize() + randomY) > 10) {
-				
-				for(int i = 0; i < ship.getSize(); i++) {
-					playerBoard[randomX][randomY] = 1;
-					randomY-=1;
-				}
-				
-			}
-			else {
-				
-				for(int i = 0; i < ship.getSize(); i++) {
-					playerBoard[randomX][randomY] = 1;
-					randomY+=1;
-				}
-				
-			}
-			
-		}
-		else {
-			
-			if((ship.getSize() + randomX) > 10) {
-				for(int i = 0; i < ship.getSize(); i++) {
-					playerBoard[randomX][randomY] = 1;
-					randomX-=1;
-					
-				}
-				
-			}
-			else {
-				for(int i = 0; i < ship.getSize(); i++) {
-					playerBoard[randomX][randomY] = 1;
-					randomX+=1;
-				}
-				
-			}
-		}
-		System.out.println();
-		displayBoard(playerBoard);
-		System.out.println();
-		System.out.println();
-		
-	}
-	
-
-
-
-
-
-
-
-
-
-		public void collisionChecker(int size, int horoz){
-			boolean returnable = false;
-			
-			int holder = 0;
-			if(horoz == 1){
-				
-			while (returnable == false){
-				shipcoordsX = (int)(Math.random() * (10));
-				shipcoordsY = (int)(Math.random() * (10-size));
-				System.out.println(shipcoordsX +" bruh, " + shipcoordsY);
-				if((size + shipcoordsY) > 10){
-					holder = 0;
-					for(int i = 0; i < size; i++){
-						holder+=playerBoard[shipcoordsX][shipcoordsY];
-						shipcoordsY-=1;
-						System.out.println("Holder: " + holder);
-					}
-				}
-				else{
-					System.out.println(shipcoordsX +" bruh, " + shipcoordsY);
-					holder = 0;
-					for(int i = 0; i < size; i++){
-						holder+=playerBoard[shipcoordsX][shipcoordsY];
-						shipcoordsY+=1;
-						System.out.println("Holder: " + holder);
-					}
-				}
-				if(holder == 0){
-					returnable = true;
-					System.out.println("Final coords: " + shipcoordsX + " , " + shipcoordsY);
-					break;
-				}
-				else{
-					System.out.println("collision!!");
-				}
-
-			}
-			
-		}
-		else{
-			
-			while (returnable == false){
-				
-				System.out.println(shipcoordsX +" bruh,bruh " + shipcoordsY);
-				shipcoordsX = (int)(Math.random() * (10-size));
-				shipcoordsY = (int)(Math.random() * (10));
-				if((size + shipcoordsX) > 10){
-					holder = 0;
-				for(int i = 0; i < size; i++){
-					holder+=playerBoard[shipcoordsX][shipcoordsY];
-					shipcoordsX-=1;
-					System.out.println("Holder: " + holder);
-				}
-			}
-			else{
-				holder =0;
-				for(int i = 0; i < size; i++){
-					
-					holder+=playerBoard[shipcoordsX][shipcoordsY];
-					shipcoordsX+=1;
-					System.out.println("Holder: " + holder);
-				}
-			}
-			if(holder == 0){
-				returnable = true;
-				System.out.println("Final coords: " + shipcoordsX + " , " + shipcoordsY);
-				break;
-			}
-			else{
-				System.out.println("collision!!");
-			}
-
-
-			}
-		}
-		}
 		public void displayBoard(int gameBoard[][]) {
 			for(int row = 0; row < 10; row++) {
 				for(int col = 0; col < 10; col++) {
