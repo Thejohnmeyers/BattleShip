@@ -38,8 +38,8 @@ class GUITest extends JFrame{
                 playerBoardView[row][col] = new JButton("");
                 oppBoardView[row][col].setPreferredSize(new Dimension(10,10));
                 playerBoardView[row][col].setPreferredSize(new Dimension(10,10));
-                playerBoardView[row][col].setName("0");
-                oppBoardView[row][col].setName("0");
+                playerBoardView[row][col].setName(String.valueOf(row) + String.valueOf(col));
+                oppBoardView[row][col].setName(String.valueOf(row) + String.valueOf(col));
                 playerBoardView[row][col].setBackground(Color.blue);
                 oppBoardView[row][col].setBackground(Color.BLUE);
             }
