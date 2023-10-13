@@ -78,6 +78,7 @@ public class BattleController{
 
     private class RandomOnClick implements ActionListener{
         public void actionPerformed(ActionEvent e){
+
             
         }
     }
