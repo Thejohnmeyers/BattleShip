@@ -22,9 +22,9 @@ public class BattleController{
         view = v;
         v.setL(new ActionOnClick());
         v.setRandomListen(new RandomOnClick());
-        //application = new Client("127.0.0.0");
-        //application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        //application.runClient(); // run client application
+        application = new Client("127.0.0.1");
+        application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        application.runClient(); // run client application
         
     }
 
@@ -118,12 +118,10 @@ public class BattleController{
             g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/h_left.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
             for (int i = 0; i < ship.getSize()-2; i++) {
                 try {
-                    // ImageIcon img = new ImageIcon(getClass().getResource("shipImages/h_middle.png"));
-                    // g[boardRow][boardCol + i+1].setIcon(img);
                     g[boardRow][boardCol+i+1].setIcon(new ImageIcon(new ImageIcon("shipImages/h_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     model.setGridPos(boardRow,boardCol, 1);
-//
+
                 } catch (Exception err) {
                     System.out.println("Couldn't set icon: " + err);
                 }
@@ -136,11 +134,8 @@ public class BattleController{
             for (int i = 0; i < ship.getSize()-2; i++) {
                 try {
                         g[boardRow+i+1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        model.setGridPos(boardRow, boardCol, 1);
 
-                    // ImageIcon img = new ImageIcon(getClass().getResource(IMAGES + "vertical/" + name + "_" + i + ".png"));
-                    // g[boardRow + i][boardCol].setIcon(img);
-                    model.setGridPos(boardRow, boardCol, 1);
-//
                 } catch (Exception err) {
                     System.out.println("Couldn't set icon: " + err);
                 }

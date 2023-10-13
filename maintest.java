@@ -6,7 +6,12 @@ public class maintest {
       GUITest v = new GUITest();
       BattleShipModel m = new BattleShipModel();
       BattleController b = new BattleController(m, v);
-
+		// while(true){
+		// 	b.waitForServer();
+		// 	if(m.isWin()){
+		// 		break;
+		// 	}
+		// }
       
 
 }
