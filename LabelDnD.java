@@ -26,21 +26,24 @@ public class LabelDnD extends JPanel {
     JPanel tfpanel = new JPanel(new GridLayout(9, 9));
     TitledBorder t1 = BorderFactory
         .createTitledBorder("JTextField: drag and drop is enabled");
-    tfpanel.add(textField);
+    
+    MouseListener listener = new DragMouseAdapter();
     for(int i=0; i < 20; i++) {
-    	JTextField textField2 = new JTextField(40);
-    	tfpanel.add(textField2);
+    	JLabel JLabel1 = new JLabel();
+    	JLabel1.addMouseListener(listener);
+      tfpanel.add(JLabel1);
+      
     }
     tfpanel.setBorder(t1);
 
-    ImageIcon icon = new ImageIcon("/Users/johnm/OneDrive/Pictures/320outputlab9.png");
+    ImageIcon icon = new ImageIcon("shipImages/h_five.png");
     label = new JLabel(icon);
     label.setIcon(icon);
     label.setTransferHandler(new TransferHandler("text"));
     
 
     
-    MouseListener listener = new DragMouseAdapter();
+    
     label.addMouseListener(listener);
     JPanel lpanel = new JPanel(new GridLayout(1, 1));
     TitledBorder t2 = BorderFactory

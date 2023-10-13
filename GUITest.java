@@ -119,7 +119,11 @@ class GUITest{
 
         myShips.setLayout(new FlowLayout());
         myShips.setBackground(new Color(25,25,25));
-        myShips.add(new JLabel(new ImageIcon("v_five.png")));
+        myShips.add(new JLabel(new ImageIcon("shipImages/v_five.png")));
+        myShips.add(new JLabel(new ImageIcon("shipImages/v_four.png")));
+        myShips.add(new JLabel(new ImageIcon("shipImages/v_three.png")));
+        myShips.add(new JLabel(new ImageIcon("shipImages/v_three.png")));
+        myShips.add(new JLabel(new ImageIcon("shipImages/v_two.png")));
 
         getRootPane(frame).setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 

@@ -69,22 +69,23 @@ public class DragPictureDemo2 extends JPanel {
     DTPicture.setInstallInputMapBindings(false);
 
     JPanel mugshots = new JPanel(new GridLayout(4, 3));
-    pic1 = new DTPicture(createImageIcon("Pictures\320outputlab9.png").getImage());
+    JPanel mug = new JPanel(new GridLayout(4, 3));
+    pic1 = new DTPicture(createImageIcon("shipImages/h_five.png").getImage());
     pic1.setTransferHandler(picHandler);
     mugshots.add(pic1);
-    pic2 = new DTPicture(createImageIcon("Pictures\320outputlab9.png").getImage());
+    pic2 = new DTPicture(createImageIcon("shipImages/h_five.png").getImage());
     pic2.setTransferHandler(picHandler);
     mugshots.add(pic2);
-    pic3 = new DTPicture(createImageIcon("Pictures\320outputlab9.png").getImage());
+    pic3 = new DTPicture(createImageIcon("shipImages/h_five.png").getImage());
     pic3.setTransferHandler(picHandler);
     mugshots.add(pic3);
-    pic4 = new DTPicture(createImageIcon("Pictures\320outputlab9.png").getImage());
+    pic4 = new DTPicture(createImageIcon("shipImages/h_five.png").getImage());
     pic4.setTransferHandler(picHandler);
     mugshots.add(pic4);
-    pic5 = new DTPicture(createImageIcon("Pictures\320outputlab9.png").getImage());
+    pic5 = new DTPicture(createImageIcon("shipImages/h_five.png").getImage());
     pic5.setTransferHandler(picHandler);
     mugshots.add(pic5);
-    pic6 = new DTPicture(createImageIcon("Pictures\320outputlab9.png").getImage());
+    pic6 = new DTPicture(createImageIcon("shipImages/h_five.png").getImage());
     pic6.setTransferHandler(picHandler);
     mugshots.add(pic6);
 
@@ -92,25 +93,26 @@ public class DragPictureDemo2 extends JPanel {
     //drop targets.
     pic7 = new DTPicture(null);
     pic7.setTransferHandler(picHandler);
-    mugshots.add(pic7);
+    mug.add(pic7);
     pic8 = new DTPicture(null);
     pic8.setTransferHandler(picHandler);
-    mugshots.add(pic8);
+    mug.add(pic8);
     pic9 = new DTPicture(null);
     pic9.setTransferHandler(picHandler);
-    mugshots.add(pic9);
+    mug.add(pic9);
     pic10 = new DTPicture(null);
     pic10.setTransferHandler(picHandler);
-    mugshots.add(pic10);
+    mug.add(pic10);
     pic11 = new DTPicture(null);
     pic11.setTransferHandler(picHandler);
-    mugshots.add(pic11);
+    mug.add(pic11);
     pic12 = new DTPicture(null);
     pic12.setTransferHandler(picHandler);
-    mugshots.add(pic12);
-
-    setPreferredSize(new Dimension(450, 630));
-    add(mugshots, BorderLayout.CENTER);
+    mug.add(pic12);
+    mug.setPreferredSize(new Dimension(450, 630));
+    mugshots.setPreferredSize(new Dimension(450, 630));
+    add(mugshots, BorderLayout.NORTH);
+    add(mug, BorderLayout.SOUTH);
     setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
   }
 
@@ -159,7 +161,7 @@ public class DragPictureDemo2 extends JPanel {
       System.err.println("Resource not found: " + path);
       return null;
     } else {
-      return new ImageIcon(imageURL, description);
+      return new ImageIcon(imageURL);
     }
   }
 
