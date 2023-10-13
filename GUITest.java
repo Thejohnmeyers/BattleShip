@@ -159,12 +159,26 @@ class GUITest{
 
     }
     
+    public JLabel[][] getMyGrid()
+    {
+        return playerBoardView;
+    }
+
+    public void setMyGrid(JLabel[][] g)
+    {
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                playerBoardView[i][j] = g[i][j];
+            }
+        }
+    }
 
     public void setL(ActionListener l)
     {
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 oppBoardView[row][col].addActionListener(l);
+
         }}
     }
     

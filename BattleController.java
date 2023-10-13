@@ -1,11 +1,14 @@
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class BattleController{
     private BattleShipModel model;
@@ -17,10 +20,12 @@ public class BattleController{
     {
         model = m;
         view = v;
-        application = new Client("127.0.0.0");
-        application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        application.runClient(); // run client application
         v.setL(new ActionOnClick());
+        v.setRandomListen(new RandomOnClick());
+        //application = new Client("127.0.0.0");
+        //application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        //application.runClient(); // run client application
+        
     }
 
     public void waitForServer()
@@ -80,6 +85,10 @@ public class BattleController{
         public void actionPerformed(ActionEvent e){
             System.out.println("HELPPPPPP");
             //add code here to iterate through ships and add to map based on call random
+            JLabel g[][] = view.getMyGrid();
+            g[0][8].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+            g[0][9].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+            view.setMyGrid(g);
             
         }
     }
