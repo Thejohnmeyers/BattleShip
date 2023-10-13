@@ -8,12 +8,14 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.http.WebSocket.Listener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import static javax.swing.SwingUtilities.getRootPane;
 
 class GUITest{
     JFrame frame;
@@ -100,11 +102,25 @@ class GUITest{
         oppPanel = new JPanel();
         controls = new JPanel();
         myShips = new JPanel();
+
         frame.setLayout(new GridLayout(2,2));
+        frame.setBackground(new Color(0,0,0));
+
         myPanel.setLayout(new GridLayout(10,10));
+        myPanel.setBackground(new Color(51,204,255));
+        myPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+
         oppPanel.setLayout(new GridLayout(10,10));
+        oppPanel.setBackground(new Color(51,204,255));
+        oppPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+
         controls.setLayout(new FlowLayout());
+        controls.setBackground(new Color(25,25,25));
+
         myShips.setLayout(new FlowLayout());
+        myShips.setBackground(new Color(25,25,25));
+
+        getRootPane(frame).setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
 
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
@@ -114,15 +130,21 @@ class GUITest{
                 oppBoardView[row][col].setName(row+""+col);
                 myPanel.add(playerBoardView[row][col]);
                 oppPanel.add(oppBoardView[row][col]);
+
+                playerBoardView[row][col].setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 1));
+                oppBoardView[row][col].setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 1));
+                oppBoardView[row][col].setBackground(new Color(51,204,255));
+
             }
         }
-        
-        frame.add(myPanel);
+
         frame.add(oppPanel);
         frame.add(controls);
+        frame.add(myPanel);
         frame.add(myShips);
-        frame.setMinimumSize(new Dimension(500, 500));
-        frame.setMaximumSize(new Dimension(500, 500));
+
+        frame.setMinimumSize(new Dimension(800, 800));
+        frame.setMaximumSize(new Dimension(800, 800));
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setVisible(true);

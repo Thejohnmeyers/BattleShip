@@ -6,23 +6,23 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
-public class BattleController{
+public class BattleController2{
     private BattleShipModel model;
     private GUITest view;
-    Client application;
+    Server application;
     String message = "";
 
-    public BattleController(BattleShipModel m , GUITest v)
+    public BattleController2(BattleShipModel m , GUITest v)
     {
         model = m;
         view = v;
-        application = new Client("127.0.0.0");
+        application = new Server();
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        application.runClient(); // run client application
+        application.runServer(); // run client application
         v.setL(new ActionOnClick());
     }
 
-    public void waitForServer()
+    public void waitForClient()
     {
         try {
             message = application.processConnection();
@@ -44,7 +44,7 @@ public class BattleController{
         {
             application.sendData("0");
         }
-        model.setTurn(0);
+        model.setTurn(1);
         view.setTurn("My turn!");
 
     }
@@ -53,7 +53,7 @@ public class BattleController{
         public void actionPerformed( ActionEvent event )
 	      {
             JButton but = (JButton)event.getSource();
-	    	if(model.getTurn() == 0){
+	    	if(model.getTurn() == 1){
                 application.sendData(but.getName() + 1);
                 try {
                     message = application.processConnection();
@@ -67,12 +67,13 @@ public class BattleController{
                 else{
                     but.setBackground(Color.white);
                 }
-                model.setTurn(1);
+                model.setTurn(0);
                 view.setTurn("Opponent's turn!");
 
             }
           }
     }
+
 
 
     

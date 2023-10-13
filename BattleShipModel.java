@@ -12,8 +12,7 @@ public class BattleShipModel {
 	private int myShips = 17;
 	private int hitNum = 0;
 	private int turn = 0;
-	Server s;
-	Client application = new Client( "10.249.43.40" );
+	
 	
 	public BattleShipModel(){
 		for(int row = 0; row < 10; row++) {
@@ -28,14 +27,14 @@ public class BattleShipModel {
 		ship[2] = new Ship(3);
 		ship[3] = new Ship(3);
 		ship[4] = new Ship(2);
-		s = new Server();
+		
 	}
 	public boolean checkHit(int x, int y){
 		
 		boolean hit = false;
 		if(playerBoard[x][y] == 1){
 			hit = true;
-			myships--;
+			myShips--;
 		}
 		return hit;
 	}

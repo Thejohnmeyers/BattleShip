@@ -89,10 +89,10 @@ public class Server extends JFrame
    // wait for connection to arrive, then display connection info
    private void waitForConnection() throws IOException
    {
-      displayMessage( "Waiting for connection\n" );
+      //displayMessage( "Waiting for connection\n" );
       connection = server.accept(); // allow server to accept connection            
-      displayMessage( "Connection " + counter + " received from: " +
-         connection.getInetAddress().getHostName() );
+      //displayMessage( "Connection " + counter + " received from: " +
+         //connection.getInetAddress().getHostName() );
    } // end method waitForConnection
 
    // get streams to send and receive data
@@ -105,14 +105,14 @@ public class Server extends JFrame
       // set up input stream for objects
       input = new ObjectInputStream( connection.getInputStream() );
 
-      displayMessage( "\nGot I/O streams\n" );
+     // displayMessage( "\nGot I/O streams\n" );
    } // end method getStreams
 
    // process connection with client
-   private void processConnection() throws IOException
+   public String processConnection() throws IOException
    {
-      String message = "Connection successful";
-      sendData( message ); // send connection successful message
+      String message = "";
+     // sendData( message ); // send connection successful message
 
       // enable enterField so server user can send messages
       setTextFieldEditable( true );
@@ -121,15 +121,17 @@ public class Server extends JFrame
       { 
          try // read message and display it
          {
-            message = ( String ) input.readObject(); // read new message
-            displayMessage( "\n" + message ); // display message
+            message = ( String ) input.readObject(); 
+            return message;// read new message
+            //displayMessage( "\n" + message ); // display message
          } // end try
          catch ( ClassNotFoundException classNotFoundException ) 
          {
-            displayMessage( "\nUnknown object type received" );
+            //displayMessage( "\nUnknown object type received" );
          } // end catch
 
       } while ( !message.equals( "CLIENT>>> TERMINATE" ) );
+      return null;
    } // end method processConnection
 
 
