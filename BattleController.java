@@ -86,12 +86,94 @@ public class BattleController{
             System.out.println("HELPPPPPP");
             //add code here to iterate through ships and add to map based on call random
             JLabel g[][] = view.getMyGrid();
-            g[0][8].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
-            g[0][9].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+            int play[][] = model.getBoard();
+            Ship[] s = model.getShips();
+            view.randPlace.setEnabled(false);
+            for(int i = 0; i <5; i++){
+                placeRandomShip(s[i], g);
+            }
+           
             view.setMyGrid(g);
             
         }
     }
+     public void placeRandomShip(Ship ship, JLabel[][] g) {
+        boolean collides = true;
+        int horiz = (int) (Math.random() * 2);
+        int boardRow, boardCol;
+        boolean horizontal = (horiz == 1) ? true : false;
+      //  String name = ship.getName();
+        do {
+            if (horizontal) {
+                boardCol = (int) (Math.random() * (9 - ship.getSize() + 1));
+                boardRow = (int) (Math.random() * (9 + 1));
+            } else {
+                boardCol = (int) (Math.random() * (9 + 1));
+                boardRow = (int) (Math.random() * (9 - ship.getSize() + 1));
+            }
+            collides = placeShip(boardRow, boardCol, horizontal, ship);
+        }
+        while (!collides);
+        if (horizontal) {
+            g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/h_left.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+            for (int i = 0; i < ship.getSize()-2; i++) {
+                try {
+                    // ImageIcon img = new ImageIcon(getClass().getResource("shipImages/h_middle.png"));
+                    // g[boardRow][boardCol + i+1].setIcon(img);
+                    g[boardRow][boardCol+i+1].setIcon(new ImageIcon(new ImageIcon("shipImages/h_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    model.setGridPos(boardRow,boardCol, 1);
+//
+                } catch (Exception err) {
+                    System.out.println("Couldn't set icon: " + err);
+                }
+            }
+            g[boardRow][boardCol+ship.getSize()-1].setIcon(new ImageIcon(new ImageIcon("shipImages/h_right.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+        } else {
+            g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+            for (int i = 0; i < ship.getSize()-2; i++) {
+                try {
+                        g[boardRow+i+1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    // ImageIcon img = new ImageIcon(getClass().getResource(IMAGES + "vertical/" + name + "_" + i + ".png"));
+                    // g[boardRow + i][boardCol].setIcon(img);
+                    model.setGridPos(boardRow, boardCol, 1);
+//
+                } catch (Exception err) {
+                    System.out.println("Couldn't set icon: " + err);
+                }
+
+            }
+            g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+
+        }
+    }
+
+    boolean placeShip(int row, int col, boolean horizontal, Ship ship)
+    {
+        int length = ship.getSize();
+        int iter = horizontal ? col : row;
+
+        // check if the ship will collide with any ships.
+        for (int i = iter; i < iter+length; i++) {
+            if(horizontal) {
+                if(model.getPos(row, i) == 1) return false;}
+            else {
+                if(model.getPos(i, col) == 1) return false; }
+        }
+
+        //place the ship
+        for (int i = iter; i < iter+length; i++) {
+            if(horizontal) model.setGridPos(row, i, 1);
+            else model.setGridPos(i, col, 1);
+            model.incrementCount();
+        }
+        return true;
+    }
+
 
 
 } 

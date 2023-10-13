@@ -12,6 +12,7 @@ public class BattleShipModel {
 	private int myShips = 17;
 	private int hitNum = 0;
 	private int turn = 0;
+	private int count = 0;
 	
 	
 	public BattleShipModel(){
@@ -111,7 +112,9 @@ public class BattleShipModel {
                 playerBoard[i][col] = 1;
             }
         }
-        return true;
+        displayBoard(playerBoard);
+		return true;
+		
     }
 
 
@@ -135,12 +138,29 @@ public class BattleShipModel {
 				}
 			}
 		}
-		
+		public int[][] getBoard(){
+			return playerBoard;
+		}
+		public Ship[] getShips(){
+			return ship;
+		}
+		public void setGridPos(int x, int y, int val)
+		{ 
+			playerBoard[x][y] = val;
+		}
+		public int getPos(int x, int y){
+			return playerBoard[x][y];
+		}
 		public void setTurn(int t)
 		{
 			turn = t;
 		}
-
+		public void incrementCount(){
+			count++;
+		}
+		public void decrementCount(){
+			count--;
+		}
 		public int getTurn()
 		{
 			return turn;
