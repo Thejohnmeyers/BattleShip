@@ -78,7 +78,8 @@ public class BattleController{
 
     private class RandomOnClick implements ActionListener{
         public void actionPerformed(ActionEvent e){
-
+            System.out.println("HELPPPPPP");
+            //add code here to iterate through ships and add to map based on call random
             
         }
     }
