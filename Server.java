@@ -132,6 +132,7 @@ public class Server extends JFrame
       } while ( !message.equals( "CLIENT>>> TERMINATE" ) );
    } // end method processConnection
 
+
    // close streams and socket
    private void closeConnection() 
    {

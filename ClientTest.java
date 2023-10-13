@@ -10,14 +10,19 @@ public class ClientTest
 
       // if no command line args
       if ( args.length == 0 )
-         application = new Client( "10.249.43.73" ); // connect to localhost
+         application = new Client( "10.249.43.40" ); // connect to localhost
       else
          application = new Client( args[ 0 ] ); // use args to connect
 
       application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
       application.runClient(); // run client application
-   } // end main
-} // end class ClientTest
+   } 
+   
+   
+   // end main
+} 
+
+// end class ClientTest
 
 /**************************************************************************
  * (C) Copyright 1992-2005 by Deitel & Associates, Inc. and               *

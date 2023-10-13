@@ -107,7 +107,7 @@
 	   } // end method getStreams
 
 	   // process connection with server
-	   private void processConnection() throws IOException
+	   public String processConnection() throws IOException
 	   {
 	      // enable enterField so client user can send messages
 	      setTextFieldEditable( true );
@@ -117,7 +117,8 @@
 	         try // read message and display it
 	         {
 	            message = ( String ) input.readObject(); // read new message
-	            displayMessage( "\n" + message ); // display message
+	            //displayMessage( "\n" + message ); // display message
+				return message;
 	         } // end try
 	         catch ( ClassNotFoundException classNotFoundException ) 
 	         {
@@ -125,6 +126,7 @@
 	         } // end catch
 
 	      } while ( !message.equals( "SERVER>>> TERMINATE" ) );
+		  return null;
 	   } // end method processConnection
 
 	   // close streams and socket

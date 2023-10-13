@@ -1,10 +1,12 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.http.WebSocket.Listener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -13,25 +15,26 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-class GUITest extends JFrame{
+class GUITest{
+    JFrame frame;
+    JPanel myPanel;
+    JPanel oppPanel;
+    JPanel myShips;
+    JPanel controls;
+
+
+
     JButton[][] oppBoardView = new JButton[10][10];
-    JButton[][] playerBoardView = new JButton [10][10];
+    JLabel[][] playerBoardView = new JLabel [10][10];
+    JLabel turn;
    // Server s = new Server();
-    Client c = new Client( "10.249.43.73" );
+    //Client c = new Client( "10.249.43.40" );
     public GUITest(){
-         try {
-                c.connectToServer();
-                c.getStreams();
-            } catch (IOException e) {
-                
-                e.printStackTrace();
-            }
-        
-        
-        JButton randPlace = new JButton("Random Placement");
+        JLabel turn = new JLabel("My turn!");
+       /* JButton randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
-        RandomPlaceButton randHandler = new RandomPlaceButton();
-        randPlace.addActionListener(randHandler);
+        // RandomPlaceButton randHandler = new RandomPlaceButton();
+        // randPlace.addActionListener(randHandler);
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 oppBoardView[row][col] = new JButton("");
@@ -39,11 +42,14 @@ class GUITest extends JFrame{
                 oppBoardView[row][col].setPreferredSize(new Dimension(10,10));
                 playerBoardView[row][col].setPreferredSize(new Dimension(10,10));
                 playerBoardView[row][col].setName(String.valueOf(row) + String.valueOf(col));
-                oppBoardView[row][col].setName(String.valueOf(row) + String.valueOf(col));
+                oppBoardView[row][col].setName(row + "" + col);
                 playerBoardView[row][col].setBackground(Color.blue);
                 oppBoardView[row][col].setBackground(Color.BLUE);
             }
         }
+
+
+
         JFrame frame = new JFrame();
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    JPanel buttonPanel = new JPanel();
@@ -86,31 +92,56 @@ class GUITest extends JFrame{
        containerPanel.add(buttonPanel, BorderLayout.NORTH);
        containerPanel.add(imagePanel);
        containerPanel.add(imagePanel2);
+       containerPanel.add(turn);
         containerPanel.add(randPlace, BorderLayout.WEST);
-        containerPanel.add(bottomPanel, BorderLayout.SOUTH);
+        containerPanel.add(bottomPanel, BorderLayout.SOUTH);*/
+        frame = new JFrame();
+        myPanel = new JPanel();
+        oppPanel = new JPanel();
+        controls = new JPanel();
+        myShips = new JPanel();
+        frame.setLayout(new GridLayout(2,2));
+        myPanel.setLayout(new GridLayout(10,10));
+        oppPanel.setLayout(new GridLayout(10,10));
+        controls.setLayout(new FlowLayout());
+        myShips.setLayout(new FlowLayout());
+
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                playerBoardView[row][col] = new JLabel();
+                oppBoardView[row][col] = new JButton();
+                playerBoardView[row][col].setName(row + "" + col);
+                oppBoardView[row][col].setName(row+""+col);
+                myPanel.add(playerBoardView[row][col]);
+                oppPanel.add(oppBoardView[row][col]);
+            }
+        }
         
-	    frame.getContentPane().add(containerPanel);
+        frame.add(myPanel);
+        frame.add(oppPanel);
+        frame.add(controls);
+        frame.add(myShips);
+        frame.setMinimumSize(new Dimension(500, 500));
+        frame.setMaximumSize(new Dimension(500, 500));
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.pack();
 	    frame.setVisible(true);
 
     }
-    private class ActionOnClick implements ActionListener{
-        public void actionPerformed( ActionEvent event )
-	      {
-	    	JButton but = (JButton)event.getSource();
-            but.setBackground(Color.RED);
-           
-            
-            c.sendData(but.getName());
-            
-          }
+    
+
+    public void setL(ActionListener l)
+    {
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                oppBoardView[row][col].addActionListener(l);
+        }}
     }
-    private class RandomPlaceButton implements ActionListener{
-        public void actionPerformed(ActionEvent e){
-            BattleShipModel b = new BattleShipModel(playerBoardView);
-            b.callRandom();
-            b.setColor(playerBoardView);
-        }
+
+    public void setTurn(String x)
+    {
+        turn.setText(x);
     }
+
 
 }

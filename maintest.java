@@ -1,12 +1,13 @@
+import javax.swing.JFrame;
 
 public class maintest {
 
 	public static void main(String[] args) {
-		
-		GUITest t = new GUITest();
-		System.out.println();
-		
-		
-	}
+      GUITest v = new GUITest();
+      BattleShipModel m = new BattleShipModel();
+      BattleController b = new BattleController(m, v);
 
+      
+
+}
 }
