@@ -29,10 +29,12 @@ class GUITest{
     JButton[][] oppBoardView = new JButton[10][10];
     JLabel[][] playerBoardView = new JLabel [10][10];
     JLabel turn;
-   // Server s = new Server();
-    //Client c = new Client( "10.249.43.40" );
+    JButton randPlace;
     public GUITest(){
         JLabel turn = new JLabel("My turn!");
+
+        randPlace = new JButton("Random Placement");
+        randPlace.setBackground(Color.GREEN);
        /* JButton randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
         // RandomPlaceButton randHandler = new RandomPlaceButton();
@@ -116,6 +118,7 @@ class GUITest{
 
         controls.setLayout(new FlowLayout());
         controls.setBackground(new Color(25,25,25));
+        controls.add(randPlace);
 
         myShips.setLayout(new FlowLayout());
         myShips.setBackground(new Color(25,25,25));
@@ -164,7 +167,10 @@ class GUITest{
                 oppBoardView[row][col].addActionListener(l);
         }}
     }
-
+    
+    public void setRandomListen(ActionListener l){
+        randPlace.addActionListener(l);
+    }
     public void setTurn(String x)
     {
         turn.setText(x);

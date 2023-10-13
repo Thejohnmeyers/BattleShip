@@ -29,6 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -68,8 +69,8 @@ public class DragPictureDemo2 extends JPanel {
     //bindings.
     DTPicture.setInstallInputMapBindings(false);
 
-    JPanel mugshots = new JPanel(new GridLayout(4, 3));
-    JPanel mug = new JPanel(new GridLayout(4, 3));
+    JPanel mugshots = new JPanel(new GridLayout(3, 3));
+    JPanel mug = new JPanel(new GridLayout(3, 3));
     pic1 = new DTPicture(createImageIcon("shipImages/h_five.png").getImage());
     pic1.setTransferHandler(picHandler);
     mugshots.add(pic1);
@@ -205,13 +206,13 @@ public class DragPictureDemo2 extends JPanel {
 
 //A subclass of Picture that supports Data Transfer.
 
-class DTPicture extends Picture implements MouseMotionListener {
+class DTPicture extends JLabel implements MouseMotionListener {
   private MouseEvent firstMouseEvent = null;
 
   private static boolean installInputMapBindings = true;
-
+  Image image;
   public DTPicture(Image image) {
-    super(image);
+    image = image;
     addMouseMotionListener(this);
 
     //Add the cut/copy/paste key bindings to the input map.
