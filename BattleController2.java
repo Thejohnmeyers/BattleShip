@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -13,7 +14,7 @@ public class BattleController2{
     private GUITest view;
     Server application;
     String message = "";
-
+    int connection = 0;
     public BattleController2(BattleShipModel m , GUITest v)
     {
         model = m;
@@ -23,17 +24,37 @@ public class BattleController2{
         application = new Server();
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runServer(); // run client application
+        while(true){
+            
+           
+            
+            try {
+                System.out.println("serbruhhh stick");
+
+
+                application.processConnection();
+              //  waitForClient();
+                System.out.println("serbruhhh stick2");
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+
+            }
+            System.out.println("serbruhhh stick3");
+
+            
+           // System.out.println("serbruhhh stick4");
+
+        }
+        //application.closeConnection();
         
     }
 
     public void waitForClient()
     {
-        try {
-            message = application.processConnection();
-        } catch (IOException e) {
-            
-            e.printStackTrace();
-        }
+        message = application.recieveMessage();
+        if(message != null){
         String[] split2 = message.toString().split("");
         int x = Integer.parseInt(split2[0]);
         int y = Integer.parseInt(split2[1]);
@@ -50,6 +71,7 @@ public class BattleController2{
         }
         model.setTurn(1);
         view.setTurn("My turn!");
+    }
 
     }
 
@@ -57,14 +79,9 @@ public class BattleController2{
         public void actionPerformed( ActionEvent event )
 	      {
             JButton but = (JButton)event.getSource();
-	    	if(model.getTurn() == 1){
+	    	//if(model.getTurn() == 1){
                 application.sendData(but.getName() + 1);
-                try {
-                    message = application.processConnection();
-                } catch (IOException e) {
-                    
-                    e.printStackTrace();
-                }
+
                 if(model.recieveHit(message)){
                     but.setBackground(Color.RED);
                 }
@@ -74,7 +91,7 @@ public class BattleController2{
                 model.setTurn(0);
                 view.setTurn("Opponent's turn!");
 
-            }
+          //  }
           }
     }
 

@@ -25,7 +25,7 @@ public class Server extends JFrame
    private ServerSocket server; // server socket
    private Socket connection; // connection to client
    private int counter = 1; // counter of number of connections
-
+    String message = "";
    // set up GUI
    public Server()
    {
@@ -61,13 +61,13 @@ public class Server extends JFrame
       {
          server = new ServerSocket( 12345, 100 ); // create ServerSocket
 
-         while ( true ) 
-         {
+         //while ( true ) 
+         //{
             try 
             {
                waitForConnection(); // wait for a connection
                getStreams(); // get input & output streams
-               processConnection(); // process connection
+              // processConnection(); // process connection
             } // end try
             catch ( EOFException eofException ) 
             {
@@ -75,10 +75,10 @@ public class Server extends JFrame
             } // end catch
             finally 
             {
-               closeConnection(); //  close connection
-               counter++;
+               // closeConnection(); //  close connection
+               // counter++;
             } // end finally
-         } // end while
+        // } // end while
       } // end try
       catch ( IOException ioException ) 
       {
@@ -89,10 +89,10 @@ public class Server extends JFrame
    // wait for connection to arrive, then display connection info
    private void waitForConnection() throws IOException
    {
-      //displayMessage( "Waiting for connection\n" );
+      displayMessage( "Waiting for connection\n" );
       connection = server.accept(); // allow server to accept connection            
-      //displayMessage( "Connection " + counter + " received from: " +
-         //connection.getInetAddress().getHostName() );
+      displayMessage( "Connection " + counter + " received from: " +
+         connection.getInetAddress().getHostName() );
    } // end method waitForConnection
 
    // get streams to send and receive data
@@ -109,29 +109,30 @@ public class Server extends JFrame
    } // end method getStreams
 
    // process connection with client
-   public String processConnection() throws IOException
+   public void  processConnection() throws IOException
    {
-      String message = "";
-     // sendData( message ); // send connection successful message
+     String Message = "ConnectionSucc";
+     sendData( Message ); // send connection successful message
 
       // enable enterField so server user can send messages
       setTextFieldEditable( true );
 
-      do // process messages sent from client
-      { 
+     // do // process messages sent from client
+     // { 
          try // read message and display it
          {
             message = ( String ) input.readObject(); 
-            return message;// read new message
-            //displayMessage( "\n" + message ); // display message
+            // read new message
+            displayMessage( "\n" + message ); // display message
+            
          } // end try
          catch ( ClassNotFoundException classNotFoundException ) 
          {
-            //displayMessage( "\nUnknown object type received" );
+            displayMessage( "\nUnknown object type received" );
          } // end catch
 
-      } while ( !message.equals( "CLIENT>>> TERMINATE" ) );
-      return null;
+     // } while ( !message.equals( "CLIENT>>> TERMINATE" ) );
+      
    } // end method processConnection
 
 
@@ -182,6 +183,10 @@ public class Server extends JFrame
       ); // end call to SwingUtilities.invokeLater
    } // end method displayMessage
 
+   public String recieveMessage()
+	   {
+			return message;
+	   }
    // manipulates enterField in the event-dispatch thread
    private void setTextFieldEditable( final boolean editable )
    {

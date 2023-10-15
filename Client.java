@@ -64,7 +64,7 @@
 	      {
 	         connectToServer(); // create a Socket to make connection
 	         getStreams(); // get the input and output streams
-	         processConnection(); // process connection
+	        // processConnection(); // process connection
 	      } // end try
 	      catch ( EOFException eofException ) 
 	      {
@@ -74,11 +74,12 @@
 	      {
 	         ioException.printStackTrace();
 	      } // end catch
-	      finally 
-	      {
-	         closeConnection(); // close connection
-	      } // end finally
-	   } // end method runClient
+	//       finally 
+	//       {
+	//          closeConnection(); // close connection
+	//       } // end finally
+	//    } // end method runClient
+	   }
 
 	   // connect to server
 	   public void connectToServer() throws IOException
@@ -107,30 +108,29 @@
 	   } // end method getStreams
 
 	   // process connection with server
-	   public String processConnection() throws IOException
+	   public void processConnection() throws IOException
 	   {
 	      // enable enterField so client user can send messages
 	      setTextFieldEditable( true );
 
-	      do // process messages sent from server
-	      { 
+	     
 	         try // read message and display it
 	         {
 	            message = ( String ) input.readObject(); // read new message
-	            //displayMessage( "\n" + message ); // display message
-				return message;
+	            displayMessage( "\n" + message ); // display message
+				
 	         } // end try
 	         catch ( ClassNotFoundException classNotFoundException ) 
 	         {
 	            displayMessage( "\nUnknown object type received" );
 	         } // end catch
 
-	      } while ( !message.equals( "SERVER>>> TERMINATE" ) );
-		  return null;
+	      
+		  
 	   } // end method processConnection
 
 	   // close streams and socket
-	   private void closeConnection() 
+	   public void closeConnection() 
 	   {
 	      displayMessage( "\nClosing connection" );
 	      setTextFieldEditable( false ); // disable enterField
@@ -175,6 +175,11 @@
 	         }  // end anonymous inner class
 	      ); // end call to SwingUtilities.invokeLater
 	   } // end method displayMessage
+
+	   public String recieveMessage()
+	   {
+			return message;
+	   }
 
 	   // manipulates enterField in the event-dispatch thread
 	   private void setTextFieldEditable( final boolean editable )

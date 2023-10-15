@@ -25,17 +25,31 @@ public class BattleController{
         application = new Client("127.0.0.1");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runClient(); // run client application
+        while(true){
+            try {
+                System.out.println("bruhhh stick");
+                application.processConnection();
+               // waitForServer();
+                System.out.println("bruhhh stick2");
+
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            System.out.println("bruhhh stick3");
+
+            
+          // System.out.println("bruhhh stick4");
+
+        }
+        //application.closeConnection();
         
     }
 
     public void waitForServer()
     {
-        try {
-            message = application.processConnection();
-        } catch (IOException e) {
-            
-            e.printStackTrace();
-        }
+        message = application.recieveMessage();
+        if(message != null){
         String[] split2 = message.toString().split("");
         int x = Integer.parseInt(split2[0]);
         int y = Integer.parseInt(split2[1]);
@@ -52,6 +66,7 @@ public class BattleController{
         }
         model.setTurn(0);
         view.setTurn("My turn!");
+    }
 
     }
 
@@ -59,14 +74,8 @@ public class BattleController{
         public void actionPerformed( ActionEvent event )
 	      {
             JButton but = (JButton)event.getSource();
-	    	if(model.getTurn() == 0){
+	    	//if(model.getTurn() == 0){
                 application.sendData(but.getName() + 1);
-                try {
-                    message = application.processConnection();
-                } catch (IOException e) {
-                    
-                    e.printStackTrace();
-                }
                 if(model.recieveHit(message)){
                     but.setBackground(Color.RED);
                 }
@@ -76,7 +85,7 @@ public class BattleController{
                 model.setTurn(1);
                 view.setTurn("Opponent's turn!");
 
-            }
+            //}
           }
     }
 
