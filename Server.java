@@ -111,8 +111,8 @@ public class Server extends JFrame
    // process connection with client
    public void  processConnection() throws IOException
    {
-     String Message = "ConnectionSucc";
-     sendData( Message ); // send connection successful message
+   //   String Message = "ConnectionSucc";
+   //   sendData( Message ); // send connection successful message
 
       // enable enterField so server user can send messages
       setTextFieldEditable( true );
