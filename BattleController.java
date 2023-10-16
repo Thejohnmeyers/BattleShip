@@ -72,7 +72,7 @@ public class BattleController{
             application.sendData("0");
         }
         model.setTurn("client");
-        view.setTurn("My turn!");
+      //  view.setTurn("My turn!");
     }
 
     }
@@ -100,7 +100,7 @@ public class BattleController{
                 } 
                 
                 model.setTurn("server");
-                view.setTurn("Opponent's turn!");
+              //  view.setTurn("Opponent's turn!");
 
             }
           }

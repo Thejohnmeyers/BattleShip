@@ -13,8 +13,6 @@ public class BattleController2{
     private BattleShipModel model;
     private GUITest view;
     Server application;
-    String message = "";
-    int connection = 0;
     public BattleController2(BattleShipModel m , GUITest v)
     {
         model = m;
@@ -31,13 +29,15 @@ public class BattleController2{
             try {
                
 
+                System.out.println(" LLLLL befor process    bruhhhhhhhh");
 
                 application.processConnection();
                 
                 // message = application.recieveMessage();
-                // System.out.println(message + "     bruhhhhhhhh");
+                System.out.println(" LLLLL afte process    bruhhhhhhhh");
                 waitForClient();
-                
+                System.out.println(" after client bruhhhhhhh");
+
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -73,9 +73,11 @@ public class BattleController2{
         {
             application.sendData("0");
         }
-        model.setTurn("server");
-        view.setTurn("My turn!");
+        // model.setTurn("server");
+        // view.setTurn("My turn!");
     }
+    model.setTurn("server");
+     //   view.setTurn("My turn!");
 
     }
 
@@ -89,7 +91,7 @@ public class BattleController2{
                 application.sendData(but.getName());
 
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -116,7 +118,7 @@ public class BattleController2{
                 // }
                
                 model.setTurn("client");
-                view.setTurn("Opponent's turn!");
+               // view.setTurn("Opponent's turn!");
             }
 
             //}
