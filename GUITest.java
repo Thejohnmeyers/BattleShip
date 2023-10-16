@@ -119,6 +119,7 @@ class GUITest{
         controls.setLayout(new FlowLayout());
         controls.setBackground(new Color(25,25,25));
         controls.add(randPlace);
+        controls.add(turn);
 
         myShips.setLayout(new FlowLayout());
         myShips.setBackground(new Color(25,25,25));

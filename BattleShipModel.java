@@ -11,7 +11,7 @@ public class BattleShipModel {
 	private int shipcoordsY;
 	private int myShips = 17;
 	private int hitNum = 0;
-	private int turn = 0;
+	private String turn = "client";
 	private int count = 0;
 	
 	
@@ -151,7 +151,11 @@ public class BattleShipModel {
 		public int getPos(int x, int y){
 			return playerBoard[x][y];
 		}
-		public void setTurn(int t)
+		public String getTurn()
+		{
+			return turn;
+		}
+		public void setTurn(String t)
 		{
 			turn = t;
 		}
@@ -161,9 +165,6 @@ public class BattleShipModel {
 		public void decrementCount(){
 			count--;
 		}
-		public int getTurn()
-		{
-			return turn;
-		}
+		
 }
 

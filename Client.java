@@ -23,7 +23,7 @@
 	   private JTextArea displayArea; // display information to user
 	   private ObjectOutputStream output; // output stream to server
 	   private ObjectInputStream input; // input stream from server
-	   private String message = ""; // message from server
+	   public String message = ""; // message from server
 	   private String chatServer; // host server for this application
 	   private Socket client; // socket to communicate with server
 
@@ -152,7 +152,7 @@
 	   {
 	      try // send object to server
 	      {
-	         output.writeObject( "CLIENT>>> " + message );
+	         output.writeObject(message );
 	         output.flush(); // flush data to output
 	         displayMessage( "\nCLIENT>>> " + message );
 	      } // end try

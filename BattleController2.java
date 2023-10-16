@@ -29,36 +29,40 @@ public class BattleController2{
            
             
             try {
-                System.out.println("serbruhhh stick");
+               
 
 
                 application.processConnection();
-              //  waitForClient();
-                System.out.println("serbruhhh stick2");
+                
+                // message = application.recieveMessage();
+                // System.out.println(message + "     bruhhhhhhhh");
+                waitForClient();
+                
 
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
 
-            }
-            System.out.println("serbruhhh stick3");
-
             
-           // System.out.println("serbruhhh stick4");
+           
+        }
+            
+           
 
         }
         //application.closeConnection();
         
     }
 
-    public void waitForClient()
+    public void waitForClient() throws IOException
     {
-        message = application.recieveMessage();
-        if(message != null){
-        String[] split2 = message.toString().split("");
+        System.out.println("bruh1" + model.getTurn());
+        if(model.getTurn() == "client"){
+        String[] split2 = application.recieveMessage().split("");
         int x = Integer.parseInt(split2[0]);
         int y = Integer.parseInt(split2[1]);
-
+        System.out.println(split2[0] + " " + split2[1]);
+        System.out.println(x + " " + y);
         boolean hit = model.checkHit(x, y);
 
         if(hit)
@@ -69,7 +73,7 @@ public class BattleController2{
         {
             application.sendData("0");
         }
-        model.setTurn(1);
+        model.setTurn("server");
         view.setTurn("My turn!");
     }
 
@@ -79,19 +83,43 @@ public class BattleController2{
         public void actionPerformed( ActionEvent event )
 	      {
             JButton but = (JButton)event.getSource();
-	    	//if(model.getTurn() == 1){
-                application.sendData(but.getName() + 1);
+            System.out.println(model.getTurn());
+	        if(model.getTurn() == "server"){
+                 System.out.println(but.getName());
+                application.sendData(but.getName());
 
-                if(model.recieveHit(message)){
-                    but.setBackground(Color.RED);
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                //application.processConnection();
+                // message = application.recieveMessage();
+                // System.out.println("forstserve: " +message);
+                System.out.println("bruhhhhh" +application.recieveMessage());
+                 if(model.recieveHit(application.recieveMessage())){
+                     but.setBackground(Color.RED);
                 }
                 else{
                     but.setBackground(Color.white);
                 }
-                model.setTurn(0);
+                // try {
+                //     application.processConnection();
+                //     message = application.recieveMessage();
+                //     System.out.println(message);
+                //     waitForClient();
+                //     System.out.println("afer wait client");
+                // } catch (IOException e) {
+                //     // TODO Auto-generated catch block
+                //     e.printStackTrace();
+                // }
+               
+                model.setTurn("client");
                 view.setTurn("Opponent's turn!");
+            }
 
-          //  }
+            //}
           }
     }
 
@@ -160,6 +188,7 @@ public class BattleController2{
 
 
         }
+
     }
 
     boolean placeShip(int row, int col, boolean horizontal, Ship ship)
