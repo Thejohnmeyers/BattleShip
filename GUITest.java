@@ -1,19 +1,29 @@
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.http.WebSocket.Listener;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import static javax.swing.SwingUtilities.getRootPane;
 
@@ -189,6 +199,27 @@ class GUITest{
     public void setTurn(String x)
     {
         turn.setText(x);
+    }
+    public void displayWin(String message){
+        JOptionPane.showMessageDialog(null, message);
+    }
+    public void changeHit(int x, int y) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        playerBoardView[x][y].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+        AudioInputStream audioInputStream;
+        Clip clip;
+        audioInputStream =  AudioSystem.getAudioInputStream(new File("sounds/mixkit-arcade-game-explosion-1699.wav").getAbsoluteFile());
+        clip = AudioSystem.getClip(); 
+        clip.open(audioInputStream); 
+        clip.start();
+    }
+    public void changeMiss(int x, int y) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        playerBoardView[x][y].setIcon(new ImageIcon(new ImageIcon("replaceImages/Solid_white.svg.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+        AudioInputStream audioInputStream;
+        Clip clip;
+        audioInputStream =  AudioSystem.getAudioInputStream(new File("sounds/mixkit-water-splash-1311.wav").getAbsoluteFile());
+        clip = AudioSystem.getClip(); 
+        clip.open(audioInputStream); 
+        clip.start();
     }
 
 
