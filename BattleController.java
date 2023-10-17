@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,8 +19,8 @@ public class BattleController{
     private GUITest view;
     Client application;
     String message = "";
-
-    public BattleController(BattleShipModel m , GUITest v)
+    int myShips = 17;
+    public BattleController(BattleShipModel m , GUITest v) throws UnsupportedAudioFileException, LineUnavailableException
     {
         model = m;
         view = v;
@@ -33,7 +35,11 @@ public class BattleController{
                
                 application.processConnection();
                 
-                
+                if(application.recieveMessage() == "Closing Connection Client Win!!"){
+                    view.displayWin(application.recieveMessage());
+                    application.closeConnection();
+                    break;
+                }
                 
                 waitForServer();
                 
@@ -52,7 +58,7 @@ public class BattleController{
         
     }
     
-    public void waitForServer()
+    public void waitForServer() throws UnsupportedAudioFileException, IOException, LineUnavailableException
     {
         System.out.println("bruh1" + model.getTurn());
         if(model.getTurn() == "server"){
@@ -66,16 +72,30 @@ public class BattleController{
         if(hit)
         {
             application.sendData("1");
+            myShips--;
+            view.changeHit(x, y);
+            if(isWin()){
+                application.sendData("Closing Connection Server Win!!");
+                view.displayWin("Closing Connection Server Win!!");
+                
+            }
         }
         else
         {
             application.sendData("0");
+            view.changeMiss(x, y);
         }
         model.setTurn("client");
       //  view.setTurn("My turn!");
     }
 
     }
+    public boolean isWin(){
+		if(myShips == 0){
+			return true;
+		}
+		return false;
+	}
 
     private class ActionOnClick implements ActionListener{
         public void actionPerformed( ActionEvent event )
@@ -84,7 +104,7 @@ public class BattleController{
 	    	if(model.getTurn() == "client"){
                 application.sendData(but.getName());
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

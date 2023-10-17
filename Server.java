@@ -137,7 +137,7 @@ public class Server extends JFrame
 
 
    // close streams and socket
-   private void closeConnection() 
+   public void closeConnection() 
    {
       displayMessage( "\nTerminating connection\n" );
       setTextFieldEditable( false ); // disable enterField
