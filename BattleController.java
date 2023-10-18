@@ -28,7 +28,32 @@ public class BattleController{
     MouseListener listener = new MouseAdapter() {
 				public void mousePressed(MouseEvent e)
 				{
-					JComponent c = (JComponent) e.getSource();
+                    // when left click
+                    JLabel c = (JLabel) e.getSource();
+                    if(e.getButton() == MouseEvent.BUTTON1) {
+                        System.out.println("Left Click Motha Fucker");
+                    }
+                    // when right click on ship, "rotate ship" -> change it to opposite direction png h<->v
+                    if(e.getButton() == MouseEvent.BUTTON3) {
+                        System.out.println("Right Click Motha Fucker");
+                        if(c.getIcon().toString() == "shipImages/v_two.png")
+                            c.setIcon(new ImageIcon("shipImages/h_two.png"));
+                        else if(c.getIcon().toString() == "shipImages/v_three.png")
+                            c.setIcon(new ImageIcon("shipImages/h_three.png"));
+                        else if(c.getIcon().toString() == "shipImages/v_four.png")
+                            c.setIcon(new ImageIcon("shipImages/h_four.png"));
+                        else if(c.getIcon().toString() == "shipImages/v_five.png")
+                            c.setIcon(new ImageIcon("shipImages/h_five.png")); 
+                        else if(c.getIcon().toString() == "shipImages/h_two.png")
+                            c.setIcon(new ImageIcon("shipImages/v_two.png"));
+                        else if(c.getIcon().toString() == "shipImages/h_three.png")
+                            c.setIcon(new ImageIcon("shipImages/v_three.png"));
+                        else if(c.getIcon().toString() == "shipImages/h_four.png")
+                            c.setIcon(new ImageIcon("shipImages/v_four.png"));
+                        else if(c.getIcon().toString() == "shipImages/h_five.png")
+                            c.setIcon(new ImageIcon("shipImages/v_five.png"));  
+                    }
+                    
 					TransferHandler handler = c.getTransferHandler();
 					handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
 				
@@ -280,6 +305,16 @@ public class BattleController{
                 if((g[row][col].getIcon()).toString() == "shipImages/v_five.png"){
                     
                     if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[0], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/h_five.png"){
+                    
+                    if(placeShip(row,col, true, s[0])){         // Works but even if horizontal, it drops the ship vertically
                         draggedShip(row, col, s[0], g);
                     }
                     else{
