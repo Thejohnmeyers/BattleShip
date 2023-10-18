@@ -28,7 +28,32 @@ public class BattleController{
     MouseListener listener = new MouseAdapter() {
 				public void mousePressed(MouseEvent e)
 				{
-					JComponent c = (JComponent) e.getSource();
+                    // when left click
+                    JLabel c = (JLabel) e.getSource();
+                    if(e.getButton() == MouseEvent.BUTTON1) {
+                        System.out.println("Left Click Motha Fucker");
+                    }
+                    // when right click on ship, "rotate ship" -> change it to opposite direction png h<->v
+                    if(e.getButton() == MouseEvent.BUTTON3) {
+                        System.out.println("Right Click Motha Fucker");
+                        if(c.getIcon().toString() == "shipImages/v_two.png")
+                            c.setIcon(new ImageIcon("shipImages/h_two.png"));
+                        else if(c.getIcon().toString() == "shipImages/v_three.png")
+                            c.setIcon(new ImageIcon("shipImages/h_three.png"));
+                        else if(c.getIcon().toString() == "shipImages/v_four.png")
+                            c.setIcon(new ImageIcon("shipImages/h_four.png"));
+                        else if(c.getIcon().toString() == "shipImages/v_five.png")
+                            c.setIcon(new ImageIcon("shipImages/h_five.png")); 
+                        else if(c.getIcon().toString() == "shipImages/h_two.png")
+                            c.setIcon(new ImageIcon("shipImages/v_two.png"));
+                        else if(c.getIcon().toString() == "shipImages/h_three.png")
+                            c.setIcon(new ImageIcon("shipImages/v_three.png"));
+                        else if(c.getIcon().toString() == "shipImages/h_four.png")
+                            c.setIcon(new ImageIcon("shipImages/v_four.png"));
+                        else if(c.getIcon().toString() == "shipImages/h_five.png")
+                            c.setIcon(new ImageIcon("shipImages/v_five.png"));  
+                    }
+                    
 					TransferHandler handler = c.getTransferHandler();
 					handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
 				
@@ -54,7 +79,7 @@ public class BattleController{
         v.setRandomListen(new RandomOnClick());
         v.setLock(new LockOnClick());
         v.setMouseListener(listener);
-        application = new Client("127.0.0.1");
+        application = new Client("10.249.43.102");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runClient(); // run client application
         while(true){
@@ -249,12 +274,17 @@ public class BattleController{
         int iter = horizontal ? col : row;
 
         // check if the ship will collide with any ships.
+        if((row+ship.getSize()-1) < 10){
         for (int i = iter; i < iter+length; i++) {
             if(horizontal) {
                 if(model.getPos(row, i) == 1) return false;}
             else {
                 if(model.getPos(i, col) == 1) return false; }
         }
+    }
+    else{
+        return false;
+    }
 
         //place the ship
         for (int i = iter; i < iter+length; i++) {
@@ -269,7 +299,6 @@ public class BattleController{
         System.out.println("BRUUHHHHHHHHH");
         JLabel g[][] = view.getMyGrid();
         Ship[] s = model.getShips();
-        //System.out.println(((g[0][0].getIcon()).toString());
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 System.out.println(row + "," + col);
@@ -283,9 +312,19 @@ public class BattleController{
 
                     }
                 }
+                if((g[row][col].getIcon()).toString() == "shipImages/h_five.png"){
+                    
+                    if(placeShip(row,col, true, s[0])){         // Works but even if horizontal, it drops the ship vertically
+                        draggedShip(row, col, s[0], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_four.png"){
                     
-                    if(placeShip(row,col, false, s[0])){
+                    if(placeShip(row,col, false, s[1])){
                         draggedShip(row, col, s[1], g);
                     }
                     else{
@@ -295,7 +334,7 @@ public class BattleController{
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_three.png"){
                     
-                    if(placeShip(row,col, false, s[0])){
+                    if(placeShip(row,col, false, s[2])){
                         draggedShip(row, col, s[2], g);
                     }
                     else{
@@ -305,7 +344,7 @@ public class BattleController{
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_two.png"){
                     
-                    if(placeShip(row,col, false, s[0])){
+                    if(placeShip(row,col, false, s[4])){
                         draggedShip(row, col, s[4], g);
                     }
                     else{
@@ -316,23 +355,25 @@ public class BattleController{
                 
             }
         }
+        model.displayPlayerBoard();
         view.setMyGrid(g);
     }
     public void draggedShip(int boardRow, int boardCol, Ship ship, JLabel[][] g){
-        g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+        if((boardRow+ship.getSize()-1) < 10){
+            g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
-            for (int i = 0; i < ship.getSize()-2; i++) {
-                try {
-                        g[boardRow+i+1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
-                        model.setGridPos(boardRow, boardCol, 1);
+                for (int i = 0; i < ship.getSize()-2; i++) {
+                    try {
+                            g[boardRow+i+1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                            //model.setGridPos(boardRow, boardCol, 1);
 
-                } catch (Exception err) {
-                    System.out.println("Couldn't set icon: " + err);
+                    } catch (Exception err) {
+                        System.out.println("Couldn't set icon: " + err);
+                    }
+
                 }
+                g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
-            }
-            g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
-
-
+        }
     }
 } 
