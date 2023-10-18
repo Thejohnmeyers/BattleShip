@@ -48,12 +48,14 @@ class GUITest{
     JLabel[][] playerBoardView = new JLabel [10][10];
     JLabel turn;
     JButton randPlace;
+    JButton lockPlace;
     public GUITest(){
         JLabel turn = new JLabel("My turn!");
 
         randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
-        
+        lockPlace = new JButton("Lock In Place");
+        lockPlace.setBackground(Color.RED);
 
         MouseListener listener = new MouseAdapter() {
 				public void mousePressed(MouseEvent e)
@@ -61,9 +63,21 @@ class GUITest{
 					JComponent c = (JComponent) e.getSource();
 					TransferHandler handler = c.getTransferHandler();
 					handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
-				}
+				
+                }
+                /*
+                 * public void mouseReleased(MouseEvent x) {
+                 *  findShipOnGrid(){
+                 *      
+                 *  }
+                 *  
+                 * }
+                 * 
+                 * 
+                 */
 			};
-
+            
+        
         frame = new JFrame();
         myPanel = new JPanel();
         oppPanel = new JPanel();
@@ -85,6 +99,7 @@ class GUITest{
         controls.setBackground(new Color(25,25,25));
         controls.add(randPlace);
         controls.add(turn);
+        controls.add(lockPlace);
 
         myShips.setLayout(new FlowLayout());
         myShips.setBackground(new Color(25,25,25));
@@ -95,11 +110,12 @@ class GUITest{
         JLabel submarine = new JLabel();
         JLabel destroyer = new JLabel();
         
-        
         carrier.setIcon(new ImageIcon("shipImages/v_five.png"));
         myShips.add(carrier);
         carrier.addMouseListener(listener);
 		carrier.setTransferHandler(new TransferHandler("icon"));
+        System.out.println(carrier.getIcon());
+
 
         battleship.setIcon(new ImageIcon("shipImages/v_four.png"));
         myShips.add(battleship);
@@ -138,6 +154,7 @@ class GUITest{
                 oppPanel.add(oppBoardView[row][col]);
 
                 playerBoardView[row][col].setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 1));
+                playerBoardView[row][col].setIcon((new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH))));
                 oppBoardView[row][col].setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 1));
                 oppBoardView[row][col].setBackground(new Color(51,204,255));
 
@@ -179,8 +196,19 @@ class GUITest{
 
         }}
     }
+    // public void setMouseBoard(MouseListener l){
+    //     for(int row = 0; row < 10; row++){
+    //         for(int col = 0; col < 10; col++){
+    //             playerBoardView[row][col].addMouseListener(l);
+
+    //     }}
+    // }
+    public void setLock(ActionListener l){
+        lockPlace.addActionListener(l);
+    }
     
     public void setRandomListen(ActionListener l){
+
         randPlace.addActionListener(l);
     }
     public void setTurn(String x)
@@ -209,5 +237,5 @@ class GUITest{
         clip.start();
     }
 
-
+    
 }
