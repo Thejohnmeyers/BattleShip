@@ -14,6 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.TransferHandler;
 
 
@@ -59,14 +61,18 @@ public class BattleController{
 				
                 }
                 
-                public void mouseExited(MouseEvent x) {
-                    System.out.println("HELPPPPPPPPPPPPPPPPLEASEEEEEEEEEE");    
+                public void mouseExited(MouseEvent x) {   
                    lookThrough();
+                   
                    
                   
                 }
-                public void mouseReleased(MouseEvent d){
+                public void mouseDragged(MouseEvent d){
+                    System.out.println("THISHSITIIIIIIISUCKSSSSS");
                     JLabel c = (JLabel) d.getSource();
+                    JPanel p = view.getShipsPanel();
+                    p.remove(c);
+                    view.setShipsPanel(p);
                    c.setIcon(null);
                    c.setTransferHandler(null);
                 }
@@ -301,11 +307,12 @@ public class BattleController{
         Ship[] s = model.getShips();
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
-                System.out.println(row + "," + col);
+                
                 if((g[row][col].getIcon()).toString() == "shipImages/v_five.png"){
                     
                     if(placeShip(row,col, false, s[0])){
                         draggedShip(row, col, s[0], g);
+                        view.removeCarrier();
                     }
                     else{
                         g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
@@ -326,6 +333,7 @@ public class BattleController{
                     
                     if(placeShip(row,col, false, s[1])){
                         draggedShip(row, col, s[1], g);
+                        view.removeBattleship();
                     }
                     else{
                         g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
@@ -336,6 +344,22 @@ public class BattleController{
                     
                     if(placeShip(row,col, false, s[2])){
                         draggedShip(row, col, s[2], g);
+                    
+                            view.removeSubmarine();
+                        
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/v_threetwo.png"){
+                    
+                    if(placeShip(row,col, false, s[2])){
+                        draggedShip(row, col, s[2], g);
+                    
+                            view.removeCruiser();
+                        
                     }
                     else{
                         g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
@@ -346,6 +370,7 @@ public class BattleController{
                     
                     if(placeShip(row,col, false, s[4])){
                         draggedShip(row, col, s[4], g);
+                        view.removeDestroyer();
                     }
                     else{
                         g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
