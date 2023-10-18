@@ -256,20 +256,28 @@ MouseListener LFrame = new MouseAdapter() {
             for(int col = 0; col < 10; col++){
                 System.out.println(row + "," + col);
                 if((g[row][col].getIcon()).toString() == "shipImages/v_five.png"){
-                    draggedShip(row, col, s[0], g);
-                    // placeShip(row,col, false, s[0]);
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[0], g);
+                    }
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_four.png"){
-                    draggedShip(row, col, s[1], g);
-                    // placeShip(row,col, false, s[0]);
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[1], g);
+                    }
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_three.png"){
-                    draggedShip(row, col, s[2], g);
-                    // placeShip(row,col, false, s[0]);
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[2], g);
+                    }
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_two.png"){
-                    draggedShip(row, col, s[4], g);
-                    // placeShip(row,col, false, s[0]);
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[4], g);
+                    }
                 }
                 
             }
