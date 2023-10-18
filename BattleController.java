@@ -24,6 +24,7 @@ import javax.swing.TransferHandler;
 public class BattleController{
     private BattleShipModel model;
     private GUITest view;
+    private JButton[][] oppGridDis;
     Client application;
     String message = "";
     int myShips = 17;
@@ -148,6 +149,7 @@ public class BattleController{
             application.sendData("0");
             view.changeMiss(x, y);
         }
+        unlockBoard();
         model.setTurn("client");
       //  view.setTurn("My turn!");
     }
@@ -159,13 +161,31 @@ public class BattleController{
 		}
 		return false;
 	}
-    MouseListener LFrame = new MouseAdapter() {
-        public void mouseReleased(MouseEvent e){
-            JLabel c = (JLabel) e.getSource();
-            c.getIcon();
-            lookThrough();
+    // MouseListener LFrame = new MouseAdapter() {
+    //     public void mouseReleased(MouseEvent e){
+    //         JLabel c = (JLabel) e.getSource();
+    //         c.getIcon();
+    //         lookThrough();
+    //     }
+    // };
+    public void lockBoard(){
+        oppGridDis = view.getOppGrid();
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                oppGridDis[row][col].setEnabled(false);
+            }
         }
-    };
+        view.setOppGrid(oppGridDis);
+    }
+    public void unlockBoard(){
+        oppGridDis = view.getOppGrid();
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                oppGridDis[row][col].setEnabled(true);
+            }
+        }
+        view.setOppGrid(oppGridDis);
+    }
     private class LockOnClick implements ActionListener{
         public void actionPerformed( ActionEvent event )
 	      {
@@ -179,8 +199,9 @@ public class BattleController{
             JButton but = (JButton)event.getSource();
 	    	if(model.getTurn() == "client"){
                 application.sendData(but.getName());
+                lockBoard();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

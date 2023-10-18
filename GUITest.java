@@ -178,7 +178,12 @@ class GUITest{
     {
         return playerBoardView;
     }
-
+    public JButton[][] getOppGrid(){
+        return oppBoardView;
+    }
+    public void setOppGrid(JButton[][] g){
+        oppBoardView = g;
+    }
     public void setMyGrid(JLabel[][] g)
     {
         for (int i = 0; i < 10; i++) {

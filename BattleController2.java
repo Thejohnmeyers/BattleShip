@@ -20,6 +20,7 @@ import javax.swing.TransferHandler;
 public class BattleController2{
     private BattleShipModel model;
     private GUITest view;
+    private JButton[][] oppGridDis;
     Server application;
     int myShips = 17;
     MouseListener listener = new MouseAdapter() {
@@ -158,11 +159,29 @@ public class BattleController2{
         // model.setTurn("server");
         // view.setTurn("My turn!");
     }
+    unlockBoard();
     model.setTurn("server");
      //   view.setTurn("My turn!");
 
     }
-
+    public void lockBoard(){
+        oppGridDis = view.getOppGrid();
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                oppGridDis[row][col].setEnabled(false);
+            }
+        }
+        view.setOppGrid(oppGridDis);
+    }
+    public void unlockBoard(){
+        oppGridDis = view.getOppGrid();
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                oppGridDis[row][col].setEnabled(true);
+            }
+        }
+        view.setOppGrid(oppGridDis);
+    }
     public boolean isWin(){
 		if(myShips == 0){
 			return true;
@@ -178,9 +197,9 @@ public class BattleController2{
 	        if(model.getTurn() == "server"){
                  System.out.println(but.getName());
                 application.sendData(but.getName());
-
+                lockBoard();
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
