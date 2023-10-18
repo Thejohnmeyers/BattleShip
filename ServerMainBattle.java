@@ -7,7 +7,7 @@ public class ServerMainBattle {
       GUITest v = new GUITest();
       BattleShipModel m = new BattleShipModel();
       BattleController2 b = new BattleController2(m, v);
-
+      
       
 
 }

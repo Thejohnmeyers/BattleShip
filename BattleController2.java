@@ -22,6 +22,8 @@ public class BattleController2{
         view = v;
         v.setL(new ActionOnClick());
         v.setRandomListen(new RandomOnClick());
+        v.setLock(new LockOnClick());
+
         application = new Server();
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runServer(); // run client application
@@ -58,7 +60,13 @@ public class BattleController2{
         //application.closeConnection();
         
     }
-
+    private class LockOnClick implements ActionListener{
+        public void actionPerformed( ActionEvent event )
+	      {
+            System.out.println("ttttt");
+            lookThrough();
+          }
+        }
     public void waitForClient() throws IOException, UnsupportedAudioFileException, LineUnavailableException
     {
         System.out.println("bruh1" + model.getTurn());
@@ -236,6 +244,61 @@ public class BattleController2{
         return true;
     }
 
+
+    public void lookThrough(){
+        System.out.println("BRUUHHHHHHHHH");
+        JLabel g[][] = view.getMyGrid();
+        Ship[] s = model.getShips();
+        
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                System.out.println(row + "," + col);
+                if((g[row][col].getIcon()).toString() == "shipImages/v_five.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[0], g);
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/v_four.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[1], g);
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/v_three.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[2], g);
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/v_two.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[4], g);
+                    }
+                }
+                
+            }
+        }
+        view.setMyGrid(g);
+    }
+    public void draggedShip(int boardRow, int boardCol, Ship ship, JLabel[][] g){
+        g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+            for (int i = 0; i < ship.getSize()-2; i++) {
+                try {
+                        g[boardRow+i+1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        model.setGridPos(boardRow, boardCol, 1);
+
+                } catch (Exception err) {
+                    System.out.println("Couldn't set icon: " + err);
+                }
+
+            }
+            g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+
+    }
 
 
     

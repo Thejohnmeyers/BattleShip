@@ -2,15 +2,20 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 import java.io.IOException;
-
+import java.awt.event.MouseEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.TransferHandler;
+
 
 
 
@@ -20,12 +25,35 @@ public class BattleController{
     Client application;
     String message = "";
     int myShips = 17;
+    MouseListener listener = new MouseAdapter() {
+				public void mousePressed(MouseEvent e)
+				{
+					JComponent c = (JComponent) e.getSource();
+					TransferHandler handler = c.getTransferHandler();
+					handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
+				
+                }
+                
+                public void mouseExited(MouseEvent x) {
+                    System.out.println("HELPPPPPPPPPPPPPPPPLEASEEEEEEEEEE");    
+                   lookThrough();
+                   
+                  
+                }
+                public void mouseReleased(MouseEvent d){
+                    JLabel c = (JLabel) d.getSource();
+                   c.setIcon(null);
+                   c.setTransferHandler(null);
+                }
+			};
     public BattleController(BattleShipModel m , GUITest v) throws UnsupportedAudioFileException, LineUnavailableException
     {
         model = m;
         view = v;
         v.setL(new ActionOnClick());
         v.setRandomListen(new RandomOnClick());
+        v.setLock(new LockOnClick());
+        v.setMouseListener(listener);
         application = new Client("127.0.0.1");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runClient(); // run client application
@@ -96,7 +124,20 @@ public class BattleController{
 		}
 		return false;
 	}
-
+    MouseListener LFrame = new MouseAdapter() {
+        public void mouseReleased(MouseEvent e){
+            JLabel c = (JLabel) e.getSource();
+            c.getIcon();
+            lookThrough();
+        }
+    };
+    private class LockOnClick implements ActionListener{
+        public void actionPerformed( ActionEvent event )
+	      {
+            System.out.println("ttttt");
+            lookThrough();
+          }
+        }
     private class ActionOnClick implements ActionListener{
         public void actionPerformed( ActionEvent event )
 	      {
@@ -125,6 +166,7 @@ public class BattleController{
             }
           }
     }
+            
 
 
     private class RandomOnClick implements ActionListener{
@@ -189,9 +231,17 @@ public class BattleController{
             }
             g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
+        }}
 
-        }
-    }
+    /* 
+    mouseReleased for water Board which parses through board[][]
+    getIcon -> string fdsfds/v_five
+    v or h = boolean
+    row col 
+    placeShip() 
+    
+    */
+   
 
     boolean placeShip(int row, int col, boolean horizontal, Ship ship)
     {
@@ -215,6 +265,74 @@ public class BattleController{
         return true;
     }
 
+    public void lookThrough(){
+        System.out.println("BRUUHHHHHHHHH");
+        JLabel g[][] = view.getMyGrid();
+        Ship[] s = model.getShips();
+        //System.out.println(((g[0][0].getIcon()).toString());
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                System.out.println(row + "," + col);
+                if((g[row][col].getIcon()).toString() == "shipImages/v_five.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[0], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/v_four.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[1], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/v_three.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[2], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/v_two.png"){
+                    
+                    if(placeShip(row,col, false, s[0])){
+                        draggedShip(row, col, s[4], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                
+            }
+        }
+        view.setMyGrid(g);
+    }
+    public void draggedShip(int boardRow, int boardCol, Ship ship, JLabel[][] g){
+        g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+            for (int i = 0; i < ship.getSize()-2; i++) {
+                try {
+                        g[boardRow+i+1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        model.setGridPos(boardRow, boardCol, 1);
+
+                } catch (Exception err) {
+                    System.out.println("Couldn't set icon: " + err);
+                }
+
+            }
+            g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
 
+    }
 } 
