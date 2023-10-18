@@ -285,19 +285,30 @@ public class BattleController{
 
         // check if the ship will collide with any ships.
         System.out.println("Rwo: " + row + ", col: " + col);
-        if(((row+ship.getSize()-1) < 10) && (col+ship.getSize()-1) < 10) {
-             System.out.println("Rwo2: " + (row+ship.getSize()-1) + ", col2: " + (col+ship.getSize()-1));
-        for (int i = iter; i < iter+length; i++) {
-            if(horizontal) {
-                if(model.getPos(row, i) == 1) return false;}
-            else {
-                if(model.getPos(i, col) == 1) return false; }
+        if(horizontal){
+            if((col+ship.getSize()-1) < 10) {
+                for (int i = iter; i < iter+length; i++) {
+                    if(horizontal) {
+                        if(model.getPos(row, i) == 1) return false;}
+                }
+            }
+            else{
+                return false;
+            }
         }
-        
-    }
-    else{
-        return false;
-    }
+        else{
+            if(((row+ship.getSize()-1) < 10)){
+                for (int i = iter; i < iter+length; i++) {
+                    if(!horizontal) {
+                        if(model.getPos(row, i) == 1) return false;}
+                }
+                
+            }
+            else{
+                return false;
+            }
+        }
+    
 
         //place the ship
         for (int i = iter; i < iter+length; i++) {
@@ -322,7 +333,7 @@ public class BattleController{
                         view.removeCarrier();
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -333,7 +344,7 @@ public class BattleController{
                         view.removeCarrier();
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -344,7 +355,7 @@ public class BattleController{
                         view.removeBattleship();
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -355,7 +366,7 @@ public class BattleController{
                         view.removeBattleship();
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -368,7 +379,7 @@ public class BattleController{
                         
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -381,7 +392,7 @@ public class BattleController{
                         
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -394,7 +405,7 @@ public class BattleController{
                         
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -407,7 +418,7 @@ public class BattleController{
                         
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -418,7 +429,7 @@ public class BattleController{
                         view.removeDestroyer();
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }
@@ -429,7 +440,7 @@ public class BattleController{
                         view.removeDestroyer();
                     }
                     else{
-                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/trans.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
                     }
                 }

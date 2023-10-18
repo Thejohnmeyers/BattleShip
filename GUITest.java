@@ -154,7 +154,7 @@ class GUITest{
                 oppPanel.add(oppBoardView[row][col]);
 
                 playerBoardView[row][col].setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 1));
-                playerBoardView[row][col].setIcon((new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH))));
+                playerBoardView[row][col].setIcon((new ImageIcon(new ImageIcon("replaceImages/trans.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH))));
                 oppBoardView[row][col].setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 1));
                 oppBoardView[row][col].setBackground(new Color(51,204,255));
 
