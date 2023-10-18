@@ -42,6 +42,8 @@ public class BattleController{
                             c.setIcon(new ImageIcon("shipImages/h_two.png"));
                         else if(c.getIcon().toString() == "shipImages/v_three.png")
                             c.setIcon(new ImageIcon("shipImages/h_three.png"));
+                        else if(c.getIcon().toString() == "shipImages/v_threetwo.png")
+                            c.setIcon(new ImageIcon("shipImages/h_threetwo.png"));
                         else if(c.getIcon().toString() == "shipImages/v_four.png")
                             c.setIcon(new ImageIcon("shipImages/h_four.png"));
                         else if(c.getIcon().toString() == "shipImages/v_five.png")
@@ -50,6 +52,8 @@ public class BattleController{
                             c.setIcon(new ImageIcon("shipImages/v_two.png"));
                         else if(c.getIcon().toString() == "shipImages/h_three.png")
                             c.setIcon(new ImageIcon("shipImages/v_three.png"));
+                        else if(c.getIcon().toString() == "shipImages/h_threetwo.png")
+                            c.setIcon(new ImageIcon("shipImages/v_threetwo.png"));
                         else if(c.getIcon().toString() == "shipImages/h_four.png")
                             c.setIcon(new ImageIcon("shipImages/v_four.png"));
                         else if(c.getIcon().toString() == "shipImages/h_five.png")
@@ -280,13 +284,16 @@ public class BattleController{
         int iter = horizontal ? col : row;
 
         // check if the ship will collide with any ships.
-        if((row+ship.getSize()-1) < 10){
+        System.out.println("Rwo: " + row + ", col: " + col);
+        if(((row+ship.getSize()-1) < 10) && (col+ship.getSize()-1) < 10) {
+             System.out.println("Rwo2: " + (row+ship.getSize()-1) + ", col2: " + (col+ship.getSize()-1));
         for (int i = iter; i < iter+length; i++) {
             if(horizontal) {
                 if(model.getPos(row, i) == 1) return false;}
             else {
                 if(model.getPos(i, col) == 1) return false; }
         }
+        
     }
     else{
         return false;
@@ -311,7 +318,7 @@ public class BattleController{
                 if((g[row][col].getIcon()).toString() == "shipImages/v_five.png"){
                     
                     if(placeShip(row,col, false, s[0])){
-                        draggedShip(row, col, s[0], g);
+                        draggedShip(row, col, s[0], g, false);
                         view.removeCarrier();
                     }
                     else{
@@ -322,7 +329,8 @@ public class BattleController{
                 if((g[row][col].getIcon()).toString() == "shipImages/h_five.png"){
                     
                     if(placeShip(row,col, true, s[0])){         // Works but even if horizontal, it drops the ship vertically
-                        draggedShip(row, col, s[0], g);
+                        draggedShip(row, col, s[0], g, true);
+                        view.removeCarrier();
                     }
                     else{
                         g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
@@ -332,7 +340,18 @@ public class BattleController{
                 if((g[row][col].getIcon()).toString() == "shipImages/v_four.png"){
                     
                     if(placeShip(row,col, false, s[1])){
-                        draggedShip(row, col, s[1], g);
+                        draggedShip(row, col, s[1], g, false);
+                        view.removeBattleship();
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/h_four.png"){
+                    
+                    if(placeShip(row,col, true, s[1])){
+                        draggedShip(row, col, s[1], g, true);
                         view.removeBattleship();
                     }
                     else{
@@ -343,7 +362,20 @@ public class BattleController{
                 if((g[row][col].getIcon()).toString() == "shipImages/v_three.png"){
                     
                     if(placeShip(row,col, false, s[2])){
-                        draggedShip(row, col, s[2], g);
+                        draggedShip(row, col, s[2], g, false);
+                    
+                            view.removeSubmarine();
+                        
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/h_three.png"){
+                    
+                    if(placeShip(row,col, true, s[2])){
+                        draggedShip(row, col, s[2], g, true);
                     
                             view.removeSubmarine();
                         
@@ -356,7 +388,20 @@ public class BattleController{
                 if((g[row][col].getIcon()).toString() == "shipImages/v_threetwo.png"){
                     
                     if(placeShip(row,col, false, s[2])){
-                        draggedShip(row, col, s[2], g);
+                        draggedShip(row, col, s[2], g, false);
+                    
+                            view.removeCruiser();
+                        
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/h_threetwo.png"){
+                    
+                    if(placeShip(row,col, true, s[2])){
+                        draggedShip(row, col, s[2], g, true);
                     
                             view.removeCruiser();
                         
@@ -369,7 +414,18 @@ public class BattleController{
                 if((g[row][col].getIcon()).toString() == "shipImages/v_two.png"){
                     
                     if(placeShip(row,col, false, s[4])){
-                        draggedShip(row, col, s[4], g);
+                        draggedShip(row, col, s[4], g, false);
+                        view.removeDestroyer();
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
+                }
+                if((g[row][col].getIcon()).toString() == "shipImages/h_two.png"){
+                    
+                    if(placeShip(row,col, true, s[4])){
+                        draggedShip(row, col, s[4], g, true);
                         view.removeDestroyer();
                     }
                     else{
@@ -383,7 +439,26 @@ public class BattleController{
         model.displayPlayerBoard();
         view.setMyGrid(g);
     }
-    public void draggedShip(int boardRow, int boardCol, Ship ship, JLabel[][] g){
+    public void draggedShip(int boardRow, int boardCol, Ship ship, JLabel[][] g, boolean hor){
+        if(hor){
+            if((boardCol+ship.getSize()-1) < 10){
+            g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/h_left.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                for (int i = 0; i < ship.getSize()-2; i++) {
+                    try {
+                            g[boardRow][boardCol+i+1].setIcon(new ImageIcon(new ImageIcon("shipImages/h_middle.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+                            //model.setGridPos(boardRow, boardCol, 1);
+
+                    } catch (Exception err) {
+                        System.out.println("Couldn't set icon: " + err);
+                    }
+
+                }
+                g[boardRow][boardCol+ship.getSize()-1].setIcon(new ImageIcon(new ImageIcon("shipImages/h_right.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+        }
+    }
+    else{
         if((boardRow+ship.getSize()-1) < 10){
             g[boardRow][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_top.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
@@ -400,5 +475,6 @@ public class BattleController{
                 g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
         }
+    }
     }
 } 
