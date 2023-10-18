@@ -43,7 +43,11 @@ class GUITest{
     JPanel controls;
 
 
-
+    JLabel carrier = new JLabel();
+    JLabel battleship = new JLabel();       
+    JLabel cruiser = new JLabel();
+    JLabel submarine = new JLabel();
+    JLabel destroyer = new JLabel();
     JButton[][] oppBoardView = new JButton[10][10];
     JLabel[][] playerBoardView = new JLabel [10][10];
     JLabel turn;
@@ -57,25 +61,25 @@ class GUITest{
         lockPlace = new JButton("Lock In Place");
         lockPlace.setBackground(Color.RED);
 
-        MouseListener listener = new MouseAdapter() {
-				public void mousePressed(MouseEvent e)
-				{
-					JComponent c = (JComponent) e.getSource();
-					TransferHandler handler = c.getTransferHandler();
-					handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
+        // MouseListener listener = new MouseAdapter() {
+		// 		public void mousePressed(MouseEvent e)
+		// 		{
+		// 			JComponent c = (JComponent) e.getSource();
+		// 			TransferHandler handler = c.getTransferHandler();
+		// 			handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
 				
-                }
-                /*
-                 * public void mouseReleased(MouseEvent x) {
-                 *  findShipOnGrid(){
-                 *      
-                 *  }
-                 *  
-                 * }
-                 * 
-                 * 
-                 */
-			};
+        //         }
+        //         /*
+        //          * public void mouseReleased(MouseEvent x) {
+        //          *  findShipOnGrid(){
+        //          *      
+        //          *  }
+        //          *  
+        //          * }
+        //          * 
+        //          * 
+        //          */
+		// 	};
             
         
         frame = new JFrame();
@@ -104,38 +108,34 @@ class GUITest{
         myShips.setLayout(new FlowLayout());
         myShips.setBackground(new Color(25,25,25));
 
-        JLabel carrier = new JLabel();
-        JLabel battleship = new JLabel();
-        JLabel cruiser = new JLabel();
-        JLabel submarine = new JLabel();
-        JLabel destroyer = new JLabel();
+        
         
         carrier.setIcon(new ImageIcon("shipImages/v_five.png"));
         myShips.add(carrier);
-        carrier.addMouseListener(listener);
-		carrier.setTransferHandler(new TransferHandler("icon"));
-        System.out.println(carrier.getIcon());
+        // carrier.addMouseListener(listener);
+		// carrier.setTransferHandler(new TransferHandler("icon"));
+        // System.out.println(carrier.getIcon());
 
 
         battleship.setIcon(new ImageIcon("shipImages/v_four.png"));
         myShips.add(battleship);
-        battleship.addMouseListener(listener);
-		battleship.setTransferHandler(new TransferHandler("icon"));
+        // battleship.addMouseListener(listener);
+		// battleship.setTransferHandler(new TransferHandler("icon"));
 
         cruiser.setIcon(new ImageIcon("shipImages/v_three.png"));
         myShips.add(cruiser);
-        cruiser.addMouseListener(listener);
-		cruiser.setTransferHandler(new TransferHandler("icon"));
+        // cruiser.addMouseListener(listener);
+		// cruiser.setTransferHandler(new TransferHandler("icon"));
 
         submarine.setIcon(new ImageIcon("shipImages/v_three.png"));
         myShips.add(submarine);
-        submarine.addMouseListener(listener);
-		submarine.setTransferHandler(new TransferHandler("icon"));
+        // submarine.addMouseListener(listener);
+		// submarine.setTransferHandler(new TransferHandler("icon"));
 
         destroyer.setIcon(new ImageIcon("shipImages/v_two.png"));
         myShips.add(destroyer);
-        destroyer.addMouseListener(listener);
-		destroyer.setTransferHandler(new TransferHandler("icon"));
+        // destroyer.addMouseListener(listener);
+		// destroyer.setTransferHandler(new TransferHandler("icon"));
 
 
         getRootPane(frame).setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
@@ -188,6 +188,22 @@ class GUITest{
         }
     }
 
+    public void setMouseListener(MouseListener l){
+        carrier.addMouseListener(l);
+		carrier.setTransferHandler(new TransferHandler("icon"));
+
+        battleship.addMouseListener(l);
+		battleship.setTransferHandler(new TransferHandler("icon"));
+
+        cruiser.addMouseListener(l);
+		cruiser.setTransferHandler(new TransferHandler("icon"));
+
+        submarine.addMouseListener(l);
+		submarine.setTransferHandler(new TransferHandler("icon"));
+
+        destroyer.addMouseListener(l);
+		destroyer.setTransferHandler(new TransferHandler("icon"));
+    }
     public void setL(ActionListener l)
     {
         for(int row = 0; row < 10; row++){

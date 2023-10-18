@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.TransferHandler;
 
 
 
@@ -24,6 +25,27 @@ public class BattleController{
     Client application;
     String message = "";
     int myShips = 17;
+    MouseListener listener = new MouseAdapter() {
+				public void mousePressed(MouseEvent e)
+				{
+					JComponent c = (JComponent) e.getSource();
+					TransferHandler handler = c.getTransferHandler();
+					handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
+				
+                }
+                
+                public void mouseExited(MouseEvent x) {
+                    System.out.println("HELPPPPPPPPPPPPPPPPLEASEEEEEEEEEE");    
+                   lookThrough();
+                   
+                  
+                }
+                public void mouseReleased(MouseEvent d){
+                    JLabel c = (JLabel) d.getSource();
+                   c.setIcon(null);
+                   c.setTransferHandler(null);
+                }
+			};
     public BattleController(BattleShipModel m , GUITest v) throws UnsupportedAudioFileException, LineUnavailableException
     {
         model = m;
@@ -31,6 +53,7 @@ public class BattleController{
         v.setL(new ActionOnClick());
         v.setRandomListen(new RandomOnClick());
         v.setLock(new LockOnClick());
+        v.setMouseListener(listener);
         application = new Client("127.0.0.1");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runClient(); // run client application
@@ -143,6 +166,7 @@ public class BattleController{
             }
           }
     }
+            
 
 
     private class RandomOnClick implements ActionListener{
@@ -207,13 +231,7 @@ public class BattleController{
             }
             g[boardRow+ship.getSize()-1][boardCol].setIcon(new ImageIcon(new ImageIcon("shipImages/v_bottom.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
 
-MouseListener LFrame = new MouseAdapter() {
-            public void mouseReleased(MouseEvent e){
-
-            }
-        };
-        }
-    }
+        }}
 
     /* 
     mouseReleased for water Board which parses through board[][]
@@ -251,7 +269,7 @@ MouseListener LFrame = new MouseAdapter() {
         System.out.println("BRUUHHHHHHHHH");
         JLabel g[][] = view.getMyGrid();
         Ship[] s = model.getShips();
-        
+        //System.out.println(((g[0][0].getIcon()).toString());
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 System.out.println(row + "," + col);
@@ -260,11 +278,19 @@ MouseListener LFrame = new MouseAdapter() {
                     if(placeShip(row,col, false, s[0])){
                         draggedShip(row, col, s[0], g);
                     }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_four.png"){
                     
                     if(placeShip(row,col, false, s[0])){
                         draggedShip(row, col, s[1], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
                     }
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_three.png"){
@@ -272,11 +298,19 @@ MouseListener LFrame = new MouseAdapter() {
                     if(placeShip(row,col, false, s[0])){
                         draggedShip(row, col, s[2], g);
                     }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
+                    }
                 }
                 if((g[row][col].getIcon()).toString() == "shipImages/v_two.png"){
                     
                     if(placeShip(row,col, false, s[0])){
                         draggedShip(row, col, s[4], g);
+                    }
+                    else{
+                        g[row][col].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+
                     }
                 }
                 
