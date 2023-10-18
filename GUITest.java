@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.http.WebSocket.Listener;
@@ -122,7 +122,7 @@ class GUITest{
         // battleship.addMouseListener(listener);
 		// battleship.setTransferHandler(new TransferHandler("icon"));
 
-        cruiser.setIcon(new ImageIcon("shipImages/v_three.png"));
+        cruiser.setIcon(new ImageIcon("shipImages/v_threetwo.png"));
         myShips.add(cruiser);
         // cruiser.addMouseListener(listener);
 		// cruiser.setTransferHandler(new TransferHandler("icon"));
@@ -187,21 +187,63 @@ class GUITest{
             }
         }
     }
+    public void removeCarrier(){
+        carrier.setIcon(null);
+        //carrier.setBackground(Color.BLUE);
+        System.out.println(carrier.getIcon());
+        carrier.setTransferHandler(null);
+        myShips.remove(carrier);
+        myShips.revalidate();
+        myShips.repaint();
+    }
+    public void removeDestroyer(){
+        destroyer.setIcon(null);
+        destroyer.setTransferHandler(null);
+        myShips.remove(destroyer);
+        myShips.revalidate();
+        myShips.repaint();
+    }
+    public void removeSubmarine(){
+        submarine.setIcon(null);
+        submarine.setTransferHandler(null);
+        myShips.remove(submarine);
+        myShips.revalidate();
+        myShips.repaint();
+    }
+    public void removeBattleship(){
+        battleship.setIcon(null);
+        battleship.setTransferHandler(null);
+        myShips.remove(battleship);
+        myShips.revalidate();
+        myShips.repaint();
+    }
+    public void removeCruiser(){
+        cruiser.setIcon(null);
+        cruiser.setTransferHandler(null);
+        myShips.remove(cruiser);
+        myShips.revalidate();
+        myShips.repaint();
+    }
 
     public void setMouseListener(MouseListener l){
         carrier.addMouseListener(l);
+        //carrier.addMouseMotionListener((MouseMotionListener)l);
 		carrier.setTransferHandler(new TransferHandler("icon"));
 
         battleship.addMouseListener(l);
+       // battleship.addMouseMotionListener((MouseMotionListener)l);
 		battleship.setTransferHandler(new TransferHandler("icon"));
 
         cruiser.addMouseListener(l);
+      //  cruiser.addMouseMotionListener((MouseMotionListener)l);
 		cruiser.setTransferHandler(new TransferHandler("icon"));
 
         submarine.addMouseListener(l);
+      //  submarine.addMouseMotionListener((MouseMotionListener)l);
 		submarine.setTransferHandler(new TransferHandler("icon"));
 
         destroyer.addMouseListener(l);
+      //  destroyer.addMouseMotionListener((MouseMotionListener)l);
 		destroyer.setTransferHandler(new TransferHandler("icon"));
     }
     public void setL(ActionListener l)
@@ -251,6 +293,16 @@ class GUITest{
         clip = AudioSystem.getClip(); 
         clip.open(audioInputStream); 
         clip.start();
+    }
+
+    public JPanel getShipsPanel()
+    {
+        return myShips;
+    }
+
+    public void setShipsPanel(JPanel p)
+    {
+        myShips = p;
     }
 
     
