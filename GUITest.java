@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -30,8 +31,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.TransferHandler;
-
+import javax.swing.border.Border;
 
 import static javax.swing.SwingUtilities.getRootPane;
 
@@ -42,7 +45,7 @@ class GUITest{
     JPanel myShips;
     JPanel controls;
 
-
+    Font buttonFont;
     JLabel carrier = new JLabel();
     JLabel battleship = new JLabel();       
     JLabel cruiser = new JLabel();
@@ -53,35 +56,32 @@ class GUITest{
     JLabel turn;
     JButton randPlace;
     JButton lockPlace;
+    JLabel pointsLabel;
+    JLabel playerPointsLabel;
+    int points = 0;
     public GUITest(){
-        JLabel turn = new JLabel("My turn!");
+        turn = new JLabel();
+        turn.setForeground(Color.white);
+        // turn.setLocation(50, 50);
+
+        pointsLabel = new JLabel("Opponent Points: " + points);
+        pointsLabel.setForeground(Color.white);
+
+        playerPointsLabel = new JLabel("My Points: " + points);
+        playerPointsLabel.setForeground(Color.white);
 
         randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
-        lockPlace = new JButton("Lock In Place");
+    
+        lockPlace = new JButton("Clear Board!");
         lockPlace.setBackground(Color.RED);
 
-        // MouseListener listener = new MouseAdapter() {
-		// 		public void mousePressed(MouseEvent e)
-		// 		{
-		// 			JComponent c = (JComponent) e.getSource();
-		// 			TransferHandler handler = c.getTransferHandler();
-		// 			handler.exportAsDrag(c, e, TransferHandler.COPY); // export copy of clicked component: Can we add a ship class object to the components?
-				
-        //         }
-        //         /*
-        //          * public void mouseReleased(MouseEvent x) {
-        //          *  findShipOnGrid(){
-        //          *      
-        //          *  }
-        //          *  
-        //          * }
-        //          * 
-        //          * 
-        //          */
-		// 	};
-            
-        
+        buttonFont = new Font("verdana", Font.PLAIN, 40);
+        randPlace.setFont(buttonFont);
+        lockPlace.setFont(buttonFont);
+        turn.setFont(buttonFont);
+        pointsLabel.setFont(buttonFont);
+        playerPointsLabel.setFont(buttonFont);
         frame = new JFrame();
         myPanel = new JPanel();
         oppPanel = new JPanel();
@@ -93,51 +93,53 @@ class GUITest{
 
         myPanel.setLayout(new GridLayout(10,10));
         myPanel.setBackground(new Color(51,204,255));
-        myPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        String title = "My Board";
+        Border border = BorderFactory.createTitledBorder(title);
+        Border border2 = BorderFactory.createLineBorder(new Color(102,102,102), 15);
+        Border borderf = BorderFactory.createCompoundBorder(border2,border);
+        // myPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        myPanel.setBorder(borderf);
 
         oppPanel.setLayout(new GridLayout(10,10));
         oppPanel.setBackground(new Color(51,204,255));
-        oppPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        String title2 = "Opponents Board:";
+        Border b = BorderFactory.createTitledBorder(title2);
+        Border bf =  BorderFactory.createCompoundBorder(border2,b);
+        // oppPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        oppPanel.setBorder(bf);
 
-        controls.setLayout(new FlowLayout());
+        controls.setLayout(new GridLayout(5,1));
         controls.setBackground(new Color(25,25,25));
-        controls.add(randPlace);
+       
         controls.add(turn);
+        controls.add(pointsLabel);
+        controls.add(playerPointsLabel);
+        controls.add(randPlace);
         controls.add(lockPlace);
 
-        myShips.setLayout(new FlowLayout());
+        myShips.setLayout(new GridLayout(2,3));
         myShips.setBackground(new Color(25,25,25));
 
         
         
         carrier.setIcon(new ImageIcon("shipImages/v_five.png"));
         myShips.add(carrier);
-        // carrier.addMouseListener(listener);
-		// carrier.setTransferHandler(new TransferHandler("icon"));
-        // System.out.println(carrier.getIcon());
-
-
+     
         battleship.setIcon(new ImageIcon("shipImages/v_four.png"));
         myShips.add(battleship);
-        // battleship.addMouseListener(listener);
-		// battleship.setTransferHandler(new TransferHandler("icon"));
+
 
         cruiser.setIcon(new ImageIcon("shipImages/v_threetwo.png"));
         myShips.add(cruiser);
-        // cruiser.addMouseListener(listener);
-		// cruiser.setTransferHandler(new TransferHandler("icon"));
 
         submarine.setIcon(new ImageIcon("shipImages/v_three.png"));
         myShips.add(submarine);
-        // submarine.addMouseListener(listener);
-		// submarine.setTransferHandler(new TransferHandler("icon"));
+
 
         destroyer.setIcon(new ImageIcon("shipImages/v_two.png"));
         myShips.add(destroyer);
-        // destroyer.addMouseListener(listener);
-		// destroyer.setTransferHandler(new TransferHandler("icon"));
 
-
+        
         getRootPane(frame).setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         
         JLabel boardLabel = new JLabel();
@@ -161,6 +163,8 @@ class GUITest{
             }
         }
 
+        
+
         frame.add(oppPanel);
         frame.add(controls);
         frame.add(myPanel);
@@ -178,7 +182,12 @@ class GUITest{
     {
         return playerBoardView;
     }
-
+    public JButton[][] getOppGrid(){
+        return oppBoardView;
+    }
+    public void setOppGrid(JButton[][] g){
+        oppBoardView = g;
+    }
     public void setMyGrid(JLabel[][] g)
     {
         for (int i = 0; i < 10; i++) {
@@ -188,38 +197,26 @@ class GUITest{
         }
     }
     public void removeCarrier(){
-        carrier.setIcon(null);
-        //carrier.setBackground(Color.BLUE);
-        System.out.println(carrier.getIcon());
-        carrier.setTransferHandler(null);
         myShips.remove(carrier);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeDestroyer(){
-        destroyer.setIcon(null);
-        destroyer.setTransferHandler(null);
         myShips.remove(destroyer);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeSubmarine(){
-        submarine.setIcon(null);
-        submarine.setTransferHandler(null);
         myShips.remove(submarine);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeBattleship(){
-        battleship.setIcon(null);
-        battleship.setTransferHandler(null);
         myShips.remove(battleship);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeCruiser(){
-        cruiser.setIcon(null);
-        cruiser.setTransferHandler(null);
         myShips.remove(cruiser);
         myShips.revalidate();
         myShips.repaint();
@@ -227,23 +224,18 @@ class GUITest{
 
     public void setMouseListener(MouseListener l){
         carrier.addMouseListener(l);
-        //carrier.addMouseMotionListener((MouseMotionListener)l);
 		carrier.setTransferHandler(new TransferHandler("icon"));
 
         battleship.addMouseListener(l);
-       // battleship.addMouseMotionListener((MouseMotionListener)l);
 		battleship.setTransferHandler(new TransferHandler("icon"));
 
         cruiser.addMouseListener(l);
-      //  cruiser.addMouseMotionListener((MouseMotionListener)l);
 		cruiser.setTransferHandler(new TransferHandler("icon"));
 
         submarine.addMouseListener(l);
-      //  submarine.addMouseMotionListener((MouseMotionListener)l);
 		submarine.setTransferHandler(new TransferHandler("icon"));
 
         destroyer.addMouseListener(l);
-      //  destroyer.addMouseMotionListener((MouseMotionListener)l);
 		destroyer.setTransferHandler(new TransferHandler("icon"));
     }
     public void setL(ActionListener l)
@@ -254,13 +246,7 @@ class GUITest{
 
         }}
     }
-    // public void setMouseBoard(MouseListener l){
-    //     for(int row = 0; row < 10; row++){
-    //         for(int col = 0; col < 10; col++){
-    //             playerBoardView[row][col].addMouseListener(l);
-
-    //     }}
-    // }
+    
     public void setLock(ActionListener l){
         lockPlace.addActionListener(l);
     }
@@ -276,7 +262,15 @@ class GUITest{
     public void displayWin(String message){
         JOptionPane.showMessageDialog(null, message);
     }
+    public void displayPoints(){
+        pointsLabel.setText("Opponent Points: " + points);
+    }
+    public void displayPlayerPoints(int p){
+        playerPointsLabel.setText("My Points: " + p);
+    }
     public void changeHit(int x, int y) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        points++;
+        displayPoints();
         playerBoardView[x][y].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
         AudioInputStream audioInputStream;
         Clip clip;
@@ -294,7 +288,40 @@ class GUITest{
         clip.open(audioInputStream); 
         clip.start();
     }
-
+    public void clearViewBoard(){
+        for(int row = 0; row < 10; row++) {
+            for(int col = 0; col < 10; col++) {
+                playerBoardView[row][col].setIcon(new ImageIcon("/replaceImages/trans.png"));
+            }
+        }
+        removeBattleship();
+        removeCarrier();
+        removeCruiser();
+        removeDestroyer();
+        removeSubmarine();
+        myShips.revalidate();
+        myShips.repaint();
+        myPanel.revalidate();
+        myPanel.repaint();
+    
+    }
+     public void clearViewBoardAdd(){
+        for(int row = 0; row < 10; row++) {
+            for(int col = 0; col < 10; col++) {
+                playerBoardView[row][col].setIcon(new ImageIcon("/replaceImages/trans.png"));
+            }
+        }
+        
+        
+        myShips.add(submarine);
+        myShips.add(battleship);
+        myShips.add(carrier);
+        myShips.add(cruiser);
+        myShips.add(destroyer);
+        myShips.revalidate();
+        myShips.repaint();
+    
+    }
     public JPanel getShipsPanel()
     {
         return myShips;

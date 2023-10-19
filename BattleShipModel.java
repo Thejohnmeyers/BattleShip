@@ -146,6 +146,14 @@ public class BattleShipModel {
 				System.out.println();
 			}
 		}
+		public void clearBoard(){
+			for(int row = 0; row < 10; row++) {
+				for(int col = 0; col < 10; col++) {
+					playerBoard[row][col] = 0;
+				}
+				
+			}
+		}
 		public int[][] getBoard(){
 			return playerBoard;
 		}

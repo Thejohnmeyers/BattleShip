@@ -24,20 +24,22 @@ import javax.swing.TransferHandler;
 public class BattleController{
     private BattleShipModel model;
     private GUITest view;
+    private JButton[][] oppGridDis;
     Client application;
     String message = "";
     int myShips = 17;
+    int points = 0;
     MouseListener listener = new MouseAdapter() {
 				public void mousePressed(MouseEvent e)
 				{
                     // when left click
                     JLabel c = (JLabel) e.getSource();
                     if(e.getButton() == MouseEvent.BUTTON1) {
-                        System.out.println("Left Click Motha Fucker");
+                        
                     }
                     // when right click on ship, "rotate ship" -> change it to opposite direction png h<->v
                     if(e.getButton() == MouseEvent.BUTTON3) {
-                        System.out.println("Right Click Motha Fucker");
+                        
                         if(c.getIcon().toString() == "shipImages/v_two.png")
                             c.setIcon(new ImageIcon("shipImages/h_two.png"));
                         else if(c.getIcon().toString() == "shipImages/v_three.png")
@@ -72,24 +74,19 @@ public class BattleController{
                   
                 }
                 public void mouseDragged(MouseEvent d){
-                    System.out.println("THISHSITIIIIIIISUCKSSSSS");
-                    JLabel c = (JLabel) d.getSource();
-                    JPanel p = view.getShipsPanel();
-                    p.remove(c);
-                    view.setShipsPanel(p);
-                   c.setIcon(null);
-                   c.setTransferHandler(null);
+                
                 }
 			};
     public BattleController(BattleShipModel m , GUITest v) throws UnsupportedAudioFileException, LineUnavailableException
     {
         model = m;
         view = v;
+        v.setTurn("My Turn!");
         v.setL(new ActionOnClick());
         v.setRandomListen(new RandomOnClick());
-        v.setLock(new LockOnClick());
+        v.setLock(new ClearOnClick());
         v.setMouseListener(listener);
-        application = new Client("10.249.43.102");
+        application = new Client("127.0.0.1");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runClient(); // run client application
         while(true){
@@ -97,7 +94,8 @@ public class BattleController{
             try {
                
                 application.processConnection();
-                
+                view.randPlace.setEnabled(false);
+                view.lockPlace.setEnabled(false);
                 if(application.recieveMessage() == "Closing Connection Client Win!!"){
                     view.displayWin(application.recieveMessage());
                     application.closeConnection();
@@ -123,7 +121,7 @@ public class BattleController{
     
     public void waitForServer() throws UnsupportedAudioFileException, IOException, LineUnavailableException
     {
-        System.out.println("bruh1" + model.getTurn());
+        // System.out.println("bruh1" + model.getTurn());
         if(model.getTurn() == "server"){
         String[] split2 = application.recieveMessage().split("");
         int x = Integer.parseInt(split2[0]);
@@ -134,6 +132,7 @@ public class BattleController{
             System.out.println(hit);
         if(hit)
         {
+            System.out.println("client sending 1");
             application.sendData("1");
             myShips--;
             view.changeHit(x, y);
@@ -145,11 +144,13 @@ public class BattleController{
         }
         else
         {
+            System.out.println("client sending 0");
             application.sendData("0");
             view.changeMiss(x, y);
         }
+        unlockBoard();
         model.setTurn("client");
-      //  view.setTurn("My turn!");
+        view.setTurn("My turn!");
     }
 
     }
@@ -159,44 +160,56 @@ public class BattleController{
 		}
 		return false;
 	}
-    MouseListener LFrame = new MouseAdapter() {
-        public void mouseReleased(MouseEvent e){
-            JLabel c = (JLabel) e.getSource();
-            c.getIcon();
-            lookThrough();
+
+    public void lockBoard(){
+        oppGridDis = view.getOppGrid();
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                oppGridDis[row][col].setEnabled(false);
+            }
         }
-    };
-    private class LockOnClick implements ActionListener{
+        view.setOppGrid(oppGridDis);
+    }
+    public void unlockBoard(){
+        oppGridDis = view.getOppGrid();
+        for(int row = 0; row < 10; row++){
+            for(int col = 0; col < 10; col++){
+                oppGridDis[row][col].setEnabled(true);
+            }
+        }
+        view.setOppGrid(oppGridDis);
+    }
+    private class ClearOnClick implements ActionListener{
         public void actionPerformed( ActionEvent event )
 	      {
-            System.out.println("ttttt");
-            lookThrough();
+            model.clearBoard();
+            view.clearViewBoardAdd();
           }
         }
     private class ActionOnClick implements ActionListener{
         public void actionPerformed( ActionEvent event )
 	      {
+            lockBoard();
             JButton but = (JButton)event.getSource();
 	    	if(model.getTurn() == "client"){
                 application.sendData(but.getName());
+                
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                // application.processConnection();
-                    // message = application.recieveMessage();
-                    // System.out.println("forst: " +message);
                 if(model.recieveHit(application.recieveMessage())){
                     but.setBackground(Color.RED);
+                    points++;
+                    view.displayPlayerPoints(points);
                  }
                 else{
                     but.setBackground(Color.white);
                 } 
                 
                 model.setTurn("server");
-              //  view.setTurn("Opponent's turn!");
+                view.setTurn("Opponent's turn!");
 
             }
           }
@@ -206,12 +219,12 @@ public class BattleController{
 
     private class RandomOnClick implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            System.out.println("HELPPPPPP");
+            model.clearBoard();
+            view.clearViewBoard();
             //add code here to iterate through ships and add to map based on call random
             JLabel g[][] = view.getMyGrid();
             int play[][] = model.getBoard();
             Ship[] s = model.getShips();
-            view.randPlace.setEnabled(false);
             for(int i = 0; i <5; i++){
                 placeRandomShip(s[i], g);
             }
@@ -225,7 +238,6 @@ public class BattleController{
         int horiz = (int) (Math.random() * 2);
         int boardRow, boardCol;
         boolean horizontal = (horiz == 1) ? true : false;
-      //  String name = ship.getName();
         do {
             if (horizontal) {
                 boardCol = (int) (Math.random() * (9 - ship.getSize() + 1));
@@ -234,7 +246,7 @@ public class BattleController{
                 boardCol = (int) (Math.random() * (9 + 1));
                 boardRow = (int) (Math.random() * (9 - ship.getSize() + 1));
             }
-            collides = placeShip(boardRow, boardCol, horizontal, ship);
+            collides = placeShipRandom(boardRow, boardCol, horizontal, ship);
         }
         while (!collides);
         if (horizontal) {
@@ -268,15 +280,28 @@ public class BattleController{
 
         }}
 
-    /* 
-    mouseReleased for water Board which parses through board[][]
-    getIcon -> string fdsfds/v_five
-    v or h = boolean
-    row col 
-    placeShip() 
+        boolean placeShipRandom(int row, int col, boolean horizontal, Ship ship)
+    {
+        int length = ship.getSize();
+        int iter = horizontal ? col : row;
+
+        // check if the ship will collide with any ships.
+        for (int i = iter; i < iter+length; i++) {
+            if(horizontal) {
+                if(model.getPos(row, i) == 1) return false;}
+            else {
+                if(model.getPos(i, col) == 1) return false; }
+        }
+
+        //place the ship
+        for (int i = iter; i < iter+length; i++) {
+            if(horizontal) model.setGridPos(row, i, 1);
+            else model.setGridPos(i, col, 1);
+            model.incrementCount();
+        }
+        return true;
     
-    */
-   
+    }
 
     boolean placeShip(int row, int col, boolean horizontal, Ship ship)
     {
@@ -320,7 +345,7 @@ public class BattleController{
     }
 
     public void lookThrough(){
-        System.out.println("BRUUHHHHHHHHH");
+        //System.out.println("BRUUHHHHHHHHH");
         JLabel g[][] = view.getMyGrid();
         Ship[] s = model.getShips();
         for(int row = 0; row < 10; row++){
@@ -447,7 +472,7 @@ public class BattleController{
                 
             }
         }
-        model.displayPlayerBoard();
+       // model.displayPlayerBoard();
         view.setMyGrid(g);
     }
     public void draggedShip(int boardRow, int boardCol, Ship ship, JLabel[][] g, boolean hor){
