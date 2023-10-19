@@ -19,7 +19,10 @@ import javax.swing.JRootPane;
 import javax.swing.TransferHandler;
 
 
-
+/*  Controller for Battleship using MVC design
+ * Authors: John Meyers and Sean Berndlmaier
+ * Date: 10/19/2023
+ */
 
 public class BattleController{
     private BattleShipModel model;

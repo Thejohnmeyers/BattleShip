@@ -38,31 +38,40 @@ import javax.swing.border.Border;
 
 import static javax.swing.SwingUtilities.getRootPane;
 
+/* "View" for Battleship in MVC design 
+ *  Authors: Sean Berndlmaier and John Meyers
+ *  Date: 10/19/2023
+ *  
+ *  
+ */
+
 class GUITest{
-    JFrame frame;
-    JPanel myPanel;
-    JPanel oppPanel;
-    JPanel myShips;
-    JPanel controls;
+    JFrame frame;   // main frame
+    JPanel myPanel; // panel for user 
+    JPanel oppPanel;    // panel to display opponents board
+    JPanel myShips; // ships to be dragged and dropped 
+    JPanel controls;    // controls such as random placement button, clear board button
 
     Font buttonFont;
+    //Creation of JLabel ships to be added to myShips panel
     JLabel carrier = new JLabel();
     JLabel battleship = new JLabel();       
     JLabel cruiser = new JLabel();
     JLabel submarine = new JLabel();
     JLabel destroyer = new JLabel();
-    JButton[][] oppBoardView = new JButton[10][10];
-    JLabel[][] playerBoardView = new JLabel [10][10];
-    JLabel turn;
-    JButton randPlace;
-    JButton lockPlace;
-    JLabel pointsLabel;
-    JLabel playerPointsLabel;
+    JButton[][] oppBoardView = new JButton[10][10];     // JButton double array for Opponent board, used for attack turn 
+    JLabel[][] playerBoardView = new JLabel [10][10];   // User board holds players ships (locations), and opponents fired shots
+    JLabel turn;    // keep track of who's turn it is
+    JButton randPlace;  // randomPlacement button for ships
+    JButton lockPlace;  // lock ships onto board 
+    JLabel pointsLabel;    // label for points/score of opponent
+    JLabel playerPointsLabel;   // label for Player points
     int points = 0;
+
+    // Constructor
     public GUITest(){
-        turn = new JLabel();
+        turn = new JLabel();    
         turn.setForeground(Color.white);
-        // turn.setLocation(50, 50);
 
         pointsLabel = new JLabel("Opponent Points: " + points);
         pointsLabel.setForeground(Color.white);
@@ -91,26 +100,25 @@ class GUITest{
         frame.setLayout(new GridLayout(2,2));
         frame.setBackground(new Color(0,0,0));
 
-        myPanel.setLayout(new GridLayout(10,10));
+        myPanel.setLayout(new GridLayout(10,10));   // set to grid layout for proper battleship design
         myPanel.setBackground(new Color(51,204,255));
         String title = "My Board";
         Border border = BorderFactory.createTitledBorder(title);
         Border border2 = BorderFactory.createLineBorder(new Color(102,102,102), 15);
         Border borderf = BorderFactory.createCompoundBorder(border2,border);
-        // myPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
         myPanel.setBorder(borderf);
 
-        oppPanel.setLayout(new GridLayout(10,10));
-        oppPanel.setBackground(new Color(51,204,255));
+        oppPanel.setLayout(new GridLayout(10,10));  // set to grid layout for proper game board
+        oppPanel.setBackground(new Color(51,204,255));  
         String title2 = "Opponents Board:";
         Border b = BorderFactory.createTitledBorder(title2);
         Border bf =  BorderFactory.createCompoundBorder(border2,b);
-        // oppPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
         oppPanel.setBorder(bf);
 
         controls.setLayout(new GridLayout(5,1));
         controls.setBackground(new Color(25,25,25));
        
+        // add buttons and labels to controls panel
         controls.add(turn);
         controls.add(pointsLabel);
         controls.add(playerPointsLabel);
@@ -120,8 +128,9 @@ class GUITest{
         myShips.setLayout(new GridLayout(2,3));
         myShips.setBackground(new Color(25,25,25));
 
-        
-        
+        /* Below we initialize all 5 ships for the game with imageIcons and add them to myShips panel
+         *  carrier, battleship, cruiser, submarine, and destroyer
+         */
         carrier.setIcon(new ImageIcon("shipImages/v_five.png"));
         myShips.add(carrier);
      
@@ -144,6 +153,8 @@ class GUITest{
         
         JLabel boardLabel = new JLabel();
 
+        // Nest for loop to initialize new Board Label and assign it to the spots of playerBoardView
+        // We do this to add transfer handler properly to labels for Drag and Drop functionality 
         for(int row = 0; row < 10; row++){
             for(int col = 0; col < 10; col++){
                 boardLabel = new JLabel();
@@ -164,12 +175,13 @@ class GUITest{
         }
 
         
-
+        // add all custom Panels to mainFrame
         frame.add(oppPanel);
         frame.add(controls);
         frame.add(myPanel);
         frame.add(myShips);
 
+        // format frame to our game standards
         frame.setMinimumSize(new Dimension(800, 800));
         frame.setMaximumSize(new Dimension(800, 800));
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -178,16 +190,23 @@ class GUITest{
 
     }
     
+    // getter return playerBoardView
     public JLabel[][] getMyGrid()
     {
         return playerBoardView;
     }
+
+    // getter oppBoardView
     public JButton[][] getOppGrid(){
         return oppBoardView;
     }
+
+    // setter OppBoardView 
     public void setOppGrid(JButton[][] g){
         oppBoardView = g;
     }
+
+    // setter: update playerBoardView with passed argument board
     public void setMyGrid(JLabel[][] g)
     {
         for (int i = 0; i < 10; i++) {
@@ -196,32 +215,43 @@ class GUITest{
             }
         }
     }
+
+    // Remove carrier from myShips
     public void removeCarrier(){
         myShips.remove(carrier);
         myShips.revalidate();
         myShips.repaint();
     }
+
+    // Remove destroyer from myShips
     public void removeDestroyer(){
         myShips.remove(destroyer);
         myShips.revalidate();
         myShips.repaint();
     }
+
+    // Remove submarine from myShips
     public void removeSubmarine(){
         myShips.remove(submarine);
         myShips.revalidate();
         myShips.repaint();
     }
+
+    // Remove battleship from myShips
     public void removeBattleship(){
         myShips.remove(battleship);
         myShips.revalidate();
         myShips.repaint();
     }
+
+    // Remove cruiser from myShips
     public void removeCruiser(){
         myShips.remove(cruiser);
         myShips.revalidate();
         myShips.repaint();
     }
 
+    // Mouse Listener for ships on myShips panel : allows for drag and drop
     public void setMouseListener(MouseListener l){
         carrier.addMouseListener(l);
 		carrier.setTransferHandler(new TransferHandler("icon"));
@@ -238,6 +268,8 @@ class GUITest{
         destroyer.addMouseListener(l);
 		destroyer.setTransferHandler(new TransferHandler("icon"));
     }
+
+    // setter for action listeners
     public void setL(ActionListener l)
     {
         for(int row = 0; row < 10; row++){
@@ -247,27 +279,39 @@ class GUITest{
         }}
     }
     
+    // add action listener to lock button
     public void setLock(ActionListener l){
         lockPlace.addActionListener(l);
     }
     
+    // add action listener to random placement button
     public void setRandomListen(ActionListener l){
 
         randPlace.addActionListener(l);
     }
+
+    // setter for turn 
     public void setTurn(String x)
     {
         turn.setText(x);
     }
+
+    // display message when there is a winner
     public void displayWin(String message){
         JOptionPane.showMessageDialog(null, message);
     }
+
+    // display points for opponent
     public void displayPoints(){
         pointsLabel.setText("Opponent Points: " + points);
     }
+
+    // display points for player
     public void displayPlayerPoints(int p){
         playerPointsLabel.setText("My Points: " + p);
     }
+
+    // if a ship is hit, change appearance accordingly and play sound
     public void changeHit(int x, int y) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         points++;
         displayPoints();
@@ -279,6 +323,8 @@ class GUITest{
         clip.open(audioInputStream); 
         clip.start();
     }
+
+    // if ship is missed, change appearance accordingly and play sound
     public void changeMiss(int x, int y) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         playerBoardView[x][y].setIcon(new ImageIcon(new ImageIcon("replaceImages/Solid_white.svg.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
         AudioInputStream audioInputStream;
@@ -288,6 +334,8 @@ class GUITest{
         clip.open(audioInputStream); 
         clip.start();
     }
+
+    // clear the board of all ships, hits, misses, etc
     public void clearViewBoard(){
         for(int row = 0; row < 10; row++) {
             for(int col = 0; col < 10; col++) {
@@ -305,6 +353,8 @@ class GUITest{
         myPanel.repaint();
     
     }
+
+    // clear player board
      public void clearViewBoardAdd(){
         for(int row = 0; row < 10; row++) {
             for(int col = 0; col < 10; col++) {
@@ -322,11 +372,14 @@ class GUITest{
         myShips.repaint();
     
     }
+
+    // getter for myShips panel
     public JPanel getShipsPanel()
     {
         return myShips;
     }
 
+    // setter for myShips panel
     public void setShipsPanel(JPanel p)
     {
         myShips = p;
