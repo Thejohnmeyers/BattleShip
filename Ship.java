@@ -1,4 +1,9 @@
 
+/* Authors: John Meyers and Sean Berndlmaier
+ * Date: 10/19/2023
+ * 	Ship class for battleship
+ */
+
 public class Ship {
 	private int size;
 	boolean isVert = false;

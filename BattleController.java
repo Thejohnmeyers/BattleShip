@@ -19,7 +19,10 @@ import javax.swing.JRootPane;
 import javax.swing.TransferHandler;
 
 
-
+/*  Controller for Battleship using MVC design
+ * Authors: John Meyers and Sean Berndlmaier
+ * Date: 10/19/2023
+ */
 
 public class BattleController{
     private BattleShipModel model;
@@ -86,7 +89,7 @@ public class BattleController{
         v.setRandomListen(new RandomOnClick());
         v.setLock(new ClearOnClick());
         v.setMouseListener(listener);
-        application = new Client("127.0.0.1");
+        application = new Client("10.249.43.88");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runClient(); // run client application
         while(true){
@@ -344,8 +347,8 @@ public class BattleController{
         return true;
     }
 
+    
     public void lookThrough(){
-        //System.out.println("BRUUHHHHHHHHH");
         JLabel g[][] = view.getMyGrid();
         Ship[] s = model.getShips();
         for(int row = 0; row < 10; row++){
