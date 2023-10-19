@@ -83,7 +83,7 @@ public class BattleController2{
         view = v;
         v.setL(new ActionOnClick());
         v.setRandomListen(new RandomOnClick());
-        v.setLock(new LockOnClick());
+        v.setLock(new ClearOnClick());
         v.setMouseListener(listener);
         application = new Server();
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -121,11 +121,11 @@ public class BattleController2{
         //application.closeConnection();
         
     }
-    private class LockOnClick implements ActionListener{
+    private class ClearOnClick implements ActionListener{
         public void actionPerformed( ActionEvent event )
 	      {
-            System.out.println("ttttt");
-            lookThrough();
+            model.clearBoard();
+            view.clearViewBoardAdd();
           }
         }
     public void waitForClient() throws IOException, UnsupportedAudioFileException, LineUnavailableException

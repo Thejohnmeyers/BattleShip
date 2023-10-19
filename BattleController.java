@@ -88,7 +88,7 @@ public class BattleController{
         view = v;
         v.setL(new ActionOnClick());
         v.setRandomListen(new RandomOnClick());
-        v.setLock(new LockOnClick());
+        v.setLock(new ClearOnClick());
         v.setMouseListener(listener);
         application = new Client("127.0.0.1");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -186,11 +186,11 @@ public class BattleController{
         }
         view.setOppGrid(oppGridDis);
     }
-    private class LockOnClick implements ActionListener{
+    private class ClearOnClick implements ActionListener{
         public void actionPerformed( ActionEvent event )
 	      {
-            System.out.println("ttttt");
-            lookThrough();
+            model.clearBoard();
+            view.clearViewBoardAdd();
           }
         }
     private class ActionOnClick implements ActionListener{
@@ -227,12 +227,13 @@ public class BattleController{
 
     private class RandomOnClick implements ActionListener{
         public void actionPerformed(ActionEvent e){
-            System.out.println("HELPPPPPP");
+            model.clearBoard();
+            view.clearViewBoard();
             //add code here to iterate through ships and add to map based on call random
             JLabel g[][] = view.getMyGrid();
             int play[][] = model.getBoard();
             Ship[] s = model.getShips();
-            view.randPlace.setEnabled(false);
+         //   view.randPlace.setEnabled(false);
             for(int i = 0; i <5; i++){
                 placeRandomShip(s[i], g);
             }

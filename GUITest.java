@@ -58,7 +58,8 @@ class GUITest{
 
         randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
-        lockPlace = new JButton("Lock In Place");
+        
+        lockPlace = new JButton("Clear Board!");
         lockPlace.setBackground(Color.RED);
 
         // MouseListener listener = new MouseAdapter() {
@@ -105,7 +106,7 @@ class GUITest{
         controls.add(turn);
         controls.add(lockPlace);
 
-        myShips.setLayout(new FlowLayout());
+        myShips.setLayout(new GridLayout(2,3));
         myShips.setBackground(new Color(25,25,25));
 
         
@@ -193,38 +194,38 @@ class GUITest{
         }
     }
     public void removeCarrier(){
-        carrier.setIcon(null);
+       // carrier.setIcon(null);
         //carrier.setBackground(Color.BLUE);
         System.out.println(carrier.getIcon());
-        carrier.setTransferHandler(null);
+        //carrier.setTransferHandler(null);
         myShips.remove(carrier);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeDestroyer(){
-        destroyer.setIcon(null);
-        destroyer.setTransferHandler(null);
+       // destroyer.setIcon(null);
+       // destroyer.setTransferHandler(null);
         myShips.remove(destroyer);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeSubmarine(){
-        submarine.setIcon(null);
-        submarine.setTransferHandler(null);
+        // submarine.setIcon(null);
+        // submarine.setTransferHandler(null);
         myShips.remove(submarine);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeBattleship(){
-        battleship.setIcon(null);
-        battleship.setTransferHandler(null);
+        // battleship.setIcon(null);
+        // battleship.setTransferHandler(null);
         myShips.remove(battleship);
         myShips.revalidate();
         myShips.repaint();
     }
     public void removeCruiser(){
-        cruiser.setIcon(null);
-        cruiser.setTransferHandler(null);
+        // cruiser.setIcon(null);
+        // cruiser.setTransferHandler(null);
         myShips.remove(cruiser);
         myShips.revalidate();
         myShips.repaint();
@@ -299,7 +300,34 @@ class GUITest{
         clip.open(audioInputStream); 
         clip.start();
     }
-
+    public void clearViewBoard(){
+        for(int row = 0; row < 10; row++) {
+            for(int col = 0; col < 10; col++) {
+                playerBoardView[row][col].setIcon(new ImageIcon("/replaceImages/trans.png"));
+            }
+        }
+        removeBattleship();
+        removeCarrier();
+        removeCruiser();
+        removeDestroyer();
+        removeSubmarine();
+    
+    }
+     public void clearViewBoardAdd(){
+        for(int row = 0; row < 10; row++) {
+            for(int col = 0; col < 10; col++) {
+                playerBoardView[row][col].setIcon(new ImageIcon("/replaceImages/trans.png"));
+            }
+        }
+        
+        
+        myShips.add(submarine);
+        myShips.add(battleship);
+        myShips.add(carrier);
+        myShips.add(cruiser);
+        myShips.add(destroyer);
+    
+    }
     public JPanel getShipsPanel()
     {
         return myShips;
