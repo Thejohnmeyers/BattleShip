@@ -34,7 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.TransferHandler;
-
+import javax.swing.border.Border;
 
 import static javax.swing.SwingUtilities.getRootPane;
 
@@ -56,14 +56,19 @@ class GUITest{
     JLabel turn;
     JButton randPlace;
     JButton lockPlace;
+    JLabel pointsLabel;
+    int points = 0;
     public GUITest(){
         turn = new JLabel();
         turn.setForeground(Color.white);
-        turn.setLocation(50, 50);
+        // turn.setLocation(50, 50);
+
+        pointsLabel = new JLabel("Opponent Points: " + points);
+        pointsLabel.setForeground(Color.white);
 
         randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
-        
+    
         lockPlace = new JButton("Clear Board!");
         lockPlace.setBackground(Color.RED);
 
@@ -71,6 +76,7 @@ class GUITest{
         randPlace.setFont(buttonFont);
         lockPlace.setFont(buttonFont);
         turn.setFont(buttonFont);
+        pointsLabel.setFont(buttonFont);
         frame = new JFrame();
         myPanel = new JPanel();
         oppPanel = new JPanel();
@@ -82,16 +88,26 @@ class GUITest{
 
         myPanel.setLayout(new GridLayout(10,10));
         myPanel.setBackground(new Color(51,204,255));
-        myPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        String title = "My Board";
+        Border border = BorderFactory.createTitledBorder(title);
+        Border border2 = BorderFactory.createLineBorder(new Color(102,102,102), 15);
+        Border borderf = BorderFactory.createCompoundBorder(border2,border);
+        // myPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        myPanel.setBorder(borderf);
 
         oppPanel.setLayout(new GridLayout(10,10));
         oppPanel.setBackground(new Color(51,204,255));
-        oppPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        String title2 = "Opponents Board:";
+        Border b = BorderFactory.createTitledBorder(title2);
+        Border bf =  BorderFactory.createCompoundBorder(border2,b);
+        // oppPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
+        oppPanel.setBorder(bf);
 
-        controls.setLayout(new GridLayout(3,1));
+        controls.setLayout(new GridLayout(4,1));
         controls.setBackground(new Color(25,25,25));
        
         controls.add(turn);
+        controls.add(pointsLabel);
         controls.add(randPlace);
         controls.add(lockPlace);
 
@@ -117,7 +133,7 @@ class GUITest{
         destroyer.setIcon(new ImageIcon("shipImages/v_two.png"));
         myShips.add(destroyer);
 
-
+        
         getRootPane(frame).setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         
         JLabel boardLabel = new JLabel();
@@ -140,6 +156,8 @@ class GUITest{
 
             }
         }
+
+        
 
         frame.add(oppPanel);
         frame.add(controls);
@@ -238,7 +256,12 @@ class GUITest{
     public void displayWin(String message){
         JOptionPane.showMessageDialog(null, message);
     }
+    public void displayPoints(){
+        pointsLabel.setText("Opponent Points: " + points);
+    }
     public void changeHit(int x, int y) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        points++;
+        displayPoints();
         playerBoardView[x][y].setIcon(new ImageIcon(new ImageIcon("replaceImages/Explosion_0.png").getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
         AudioInputStream audioInputStream;
         Clip clip;
