@@ -86,7 +86,7 @@ public class BattleController{
         v.setRandomListen(new RandomOnClick());
         v.setLock(new ClearOnClick());
         v.setMouseListener(listener);
-        application = new Client("127.0.0.1");
+        application = new Client("10.249.43.88");
         application.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         application.runClient(); // run client application
         while(true){
