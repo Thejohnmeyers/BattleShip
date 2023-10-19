@@ -28,6 +28,7 @@ public class BattleController{
     Client application;
     String message = "";
     int myShips = 17;
+    int points = 0;
     MouseListener listener = new MouseAdapter() {
 				public void mousePressed(MouseEvent e)
 				{
@@ -131,8 +132,7 @@ public class BattleController{
             System.out.println(hit);
         if(hit)
         {
-            System.out.println("client sending 1"
-            );
+            System.out.println("client sending 1");
             application.sendData("1");
             myShips--;
             view.changeHit(x, y);
@@ -201,6 +201,8 @@ public class BattleController{
                 }
                 if(model.recieveHit(application.recieveMessage())){
                     but.setBackground(Color.RED);
+                    points++;
+                    view.displayPlayerPoints(points);
                  }
                 else{
                     but.setBackground(Color.white);

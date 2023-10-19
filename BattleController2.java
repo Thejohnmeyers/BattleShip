@@ -23,6 +23,7 @@ public class BattleController2{
     private JButton[][] oppGridDis;
     Server application;
     int myShips = 17;
+    int points  =0;
     MouseListener listener = new MouseAdapter() {
 				public void mousePressed(MouseEvent e)
 				{
@@ -209,6 +210,8 @@ public class BattleController2{
                 System.out.println("bruhhhhh" +application.recieveMessage());
                  if(model.recieveHit(application.recieveMessage())){
                      but.setBackground(Color.RED);
+                     points++;
+                    view.displayPlayerPoints(points);
                 }
                 else{
                     but.setBackground(Color.white);

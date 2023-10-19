@@ -57,6 +57,7 @@ class GUITest{
     JButton randPlace;
     JButton lockPlace;
     JLabel pointsLabel;
+    JLabel playerPointsLabel;
     int points = 0;
     public GUITest(){
         turn = new JLabel();
@@ -65,6 +66,9 @@ class GUITest{
 
         pointsLabel = new JLabel("Opponent Points: " + points);
         pointsLabel.setForeground(Color.white);
+
+        playerPointsLabel = new JLabel("My Points: " + points);
+        playerPointsLabel.setForeground(Color.white);
 
         randPlace = new JButton("Random Placement");
         randPlace.setBackground(Color.GREEN);
@@ -77,6 +81,7 @@ class GUITest{
         lockPlace.setFont(buttonFont);
         turn.setFont(buttonFont);
         pointsLabel.setFont(buttonFont);
+        playerPointsLabel.setFont(buttonFont);
         frame = new JFrame();
         myPanel = new JPanel();
         oppPanel = new JPanel();
@@ -103,11 +108,12 @@ class GUITest{
         // oppPanel.setBorder(BorderFactory.createLineBorder(new Color(102,102,102), 15));
         oppPanel.setBorder(bf);
 
-        controls.setLayout(new GridLayout(4,1));
+        controls.setLayout(new GridLayout(5,1));
         controls.setBackground(new Color(25,25,25));
        
         controls.add(turn);
         controls.add(pointsLabel);
+        controls.add(playerPointsLabel);
         controls.add(randPlace);
         controls.add(lockPlace);
 
@@ -258,6 +264,9 @@ class GUITest{
     }
     public void displayPoints(){
         pointsLabel.setText("Opponent Points: " + points);
+    }
+    public void displayPlayerPoints(int p){
+        playerPointsLabel.setText("My Points: " + p);
     }
     public void changeHit(int x, int y) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
         points++;
