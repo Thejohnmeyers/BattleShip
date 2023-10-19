@@ -195,7 +195,7 @@ public class BattleController{
                 application.sendData(but.getName());
                 
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -345,7 +345,7 @@ public class BattleController{
     }
 
     public void lookThrough(){
-        System.out.println("BRUUHHHHHHHHH");
+        //System.out.println("BRUUHHHHHHHHH");
         JLabel g[][] = view.getMyGrid();
         Ship[] s = model.getShips();
         for(int row = 0; row < 10; row++){

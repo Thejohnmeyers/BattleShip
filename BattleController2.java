@@ -201,13 +201,13 @@ public class BattleController2{
                 application.sendData(but.getName());
                 
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
                 
-                System.out.println("bruhhhhh" +application.recieveMessage());
+                //System.out.println("bruhhhhh" +application.recieveMessage());
                  if(model.recieveHit(application.recieveMessage())){
                      but.setBackground(Color.RED);
                      points++;
